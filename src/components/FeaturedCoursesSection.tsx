@@ -1,0 +1,254 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { Star, BarChart2 } from "lucide-react";
+
+const CATEGORIES = [
+  // Row 1
+  "Featured",
+  "Music",
+  "Drawing & Painting",
+  "Marketing",
+  "Animation",
+  "Social Media",
+  "UI/UX Design",
+  "Creative Marketing",
+  // Row 2
+  "Digital Illustration",
+  "Film & Video",
+  "Crafts",
+  "Freelance & Entrepreneurship",
+  "Graphic Design",
+  "Photography",
+  // Row 3
+  "Productivity",
+  "Web Development",
+  "Data Science",
+  "Cooking",
+];
+
+interface Course {
+  id: number;
+  title: string;
+  category: string;
+  author: string;
+  rating: number;
+  price: number;
+  image: string;
+  level: string;
+  studentsCount: string;
+  lessons: string;
+  duration: string;
+  comments: string;
+}
+
+const COURSES: Course[] = [
+  {
+    id: 1,
+    title: "Learn Figma from Basic",
+    category: "UI/UX Design",
+    author: "purepearl studio",
+    rating: 4.5,
+    price: 25,
+    image: "/assets/courses/course-figma-basics.png",
+    level: "Beginner",
+    studentsCount: "26+",
+    lessons: "17 Lessons",
+    duration: "2 hours 16 mins",
+    comments: "59 Comments",
+  },
+  {
+    id: 2,
+    title: "Build Digital Asset",
+    category: "Web Development",
+    author: "purepearl studio",
+    rating: 4.5,
+    price: 25,
+    image: "/assets/courses/course-ui-ux-design.png",
+    level: "Beginner",
+    studentsCount: "26+",
+    lessons: "17 Lessons",
+    duration: "2 hours 16 mins",
+    comments: "59 Comments",
+  },
+  {
+    id: 3,
+    title: "the Power of Big Data",
+    category: "Data Science",
+    author: "purepearl studio",
+    rating: 4.5,
+    price: 25,
+    image: "/assets/courses/course-dashboard-analytics.png",
+    level: "Beginner",
+    studentsCount: "26+",
+    lessons: "17 Lessons",
+    duration: "2 hours 16 mins",
+    comments: "59 Comments",
+  },
+  {
+    id: 4,
+    title: "Balancing Productivity an...",
+    category: "Productivity",
+    author: "purepearl studio",
+    rating: 4.5,
+    price: 25,
+    image: "/assets/courses/course-productivity-work.png",
+    level: "Beginner",
+    studentsCount: "26+",
+    lessons: "17 Lessons",
+    duration: "2 hours 16 mins",
+    comments: "59 Comments",
+  },
+  {
+    id: 5,
+    title: "Mastering Money Manage...",
+    category: "Business",
+    author: "purepearl studio",
+    rating: 4.5,
+    price: 25,
+    image: "/assets/courses/course-stock-market-finance.png",
+    level: "Beginner",
+    studentsCount: "26+",
+    lessons: "17 Lessons",
+    duration: "2 hours 16 mins",
+    comments: "59 Comments",
+  },
+  {
+    id: 6,
+    title: "From Idea to Startup Succ...",
+    category: "Freelance & Entrepreneurship",
+    author: "purepearl studio",
+    rating: 4.5,
+    price: 25,
+    image: "/assets/courses/course-team-collaboration.png",
+    level: "Beginner",
+    studentsCount: "26+",
+    lessons: "17 Lessons",
+    duration: "2 hours 16 mins",
+    comments: "59 Comments",
+  },
+];
+
+export default function FeaturedCoursesSection() {
+  const [activeCategory, setActiveCategory] = useState("Featured");
+
+  const filteredCourses =
+    activeCategory === "Featured"
+      ? COURSES
+      : COURSES.filter((c) => c.category === activeCategory || true);
+
+  return (
+    <section id="courses" className="w-full bg-white py-20 sm:py-28 relative">
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <h2 className="font-heading font-semibold text-3xl sm:text-4xl md:text-[44px] leading-tight text-neutral-900">
+            Discover Your Passion, <br className="hidden sm:inline" />
+            Build Your Skills
+          </h2>
+          <p className="mt-4 text-neutral-500 font-normal text-base sm:text-lg leading-relaxed">
+            At Bytespace Courses, we bring you closer to life-changing knowledge. Explore a variety of courses across different fields, from technology to the arts, and make a difference in your career and life.
+          </p>
+        </div>
+
+        {/* Filter Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 max-w-5xl mx-auto mb-16">
+          {CATEGORIES.map((cat) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 sm:px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
+                  isActive
+                    ? "bg-[#d4fb20] text-neutral-900 shadow-sm font-semibold"
+                    : "bg-neutral-100/80 hover:bg-neutral-200/80 text-neutral-700 border border-transparent"
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
+          <button
+            type="button"
+            className="px-4 sm:px-5 py-2 rounded-full text-sm font-medium bg-neutral-100/80 hover:bg-neutral-200/80 text-neutral-700 transition-all flex items-center gap-1 cursor-pointer"
+          >
+            <span className="text-[#0043ff] font-semibold">+</span> More
+          </button>
+        </div>
+
+        {/* Courses Grid (3 columns x 2 rows) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredCourses.map((course) => (
+            <div
+              key={course.id}
+              className="group bg-white rounded-[28px] p-4 sm:p-5 border border-neutral-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(0,67,255,0.08)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+            >
+              {/* Thumbnail Container */}
+              <div className="relative w-full aspect-[341/196] rounded-2xl overflow-hidden bg-neutral-100">
+                <Image
+                  src={course.image}
+                  alt={course.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+
+              {/* Course Info */}
+              <div className="pt-5 pb-2">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="font-heading font-semibold text-lg sm:text-xl text-neutral-900 group-hover:text-[#0043ff] transition-colors truncate">
+                    {course.title}
+                  </h3>
+                  <div className="flex items-center gap-1 text-neutral-400 shrink-0">
+                    <span className="text-neutral-600 text-sm font-medium">{course.rating}</span>
+                    <Star className="w-4 h-4 fill-neutral-300 text-neutral-300" />
+                  </div>
+                </div>
+
+                <p className="text-neutral-400 text-sm mt-1">
+                  by <span className="text-[#0043ff] hover:underline cursor-pointer">{course.author}</span>
+                </p>
+
+                {/* Level Badge and Avatars Stack */}
+                <div className="flex items-center justify-between mt-5 pt-1">
+                  {/* Beginner pill badge */}
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 text-neutral-600 text-xs font-medium">
+                    <BarChart2 className="w-3.5 h-3.5 text-neutral-500" />
+                    <span>{course.level}</span>
+                  </div>
+
+                  {/* Avatars Stack */}
+                  <div className="flex items-center -space-x-2">
+                    <div className="w-6 h-6 rounded-full border-2 border-white overflow-hidden relative">
+                      <Image src="/assets/avatars/avatar-male-senior.png" alt="Learner" fill className="object-cover" />
+                    </div>
+                    <div className="w-6 h-6 rounded-full border-2 border-white overflow-hidden relative">
+                      <Image src="/assets/avatars/avatar-female-yellow-bg.png" alt="Learner" fill className="object-cover" />
+                    </div>
+                    <div className="w-6 h-6 rounded-full border-2 border-white overflow-hidden relative">
+                      <Image src="/assets/avatars/avatar-male-glasses.png" alt="Learner" fill className="object-cover" />
+                    </div>
+                    <div className="w-6 h-6 rounded-full bg-[#d4fb20] border-2 border-white flex items-center justify-center text-[9px] font-bold text-neutral-900">
+                      {course.studentsCount}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Price */}
+                <div className="mt-5 pt-3 border-t border-neutral-100 flex items-baseline gap-1">
+                  <span className="font-heading font-bold text-2xl text-[#0043ff]">
+                    ${course.price}
+                  </span>
+                  <span className="text-neutral-500 text-sm">/lifetime</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

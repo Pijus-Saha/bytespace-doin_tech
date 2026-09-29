@@ -1,26 +1,93 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-heading: var(--font-poppins), 'Poppins', sans-serif;
+  --font-body: 'Satoshi', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Satoshi', system-ui, sans-serif;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-brand-blue: #0043ff;
+  --color-brand-blue-deep: #003be2;
+  --color-brand-blue-dark: #0b36a4;
+  --color-brand-lime: #d4fb20;
+  --color-brand-lime-hover: #cbfc01;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary-50: #e7f6ff;
+  --color-primary-100: #d3eeff;
+  --color-primary-200: #b0ddff;
+  --color-primary-300: #81c5ff;
+  --color-primary-400: #4f9dff;
+  --color-primary-500: #2872ff;
+  --color-primary-600: #0445ff;
+  --color-primary-700: #0043ff;
+  --color-primary-800: #003be2;
+  --color-primary-900: #0b36a4;
+  --color-primary-950: #071e5f;
+
+  --color-lime-50: #fdffe4;
+  --color-lime-100: #faffc5;
+  --color-lime-200: #f2ff92;
+  --color-lime-300: #e4ff54;
+  --color-lime-400: #d4fb20;
+  --color-lime-500: #cbfc01;
+  --color-lime-600: #8cb400;
+  --color-lime-700: #6a8902;
+  --color-lime-800: #546b09;
+  --color-lime-900: #465a0d;
+  --color-lime-950: #243300;
+
+  --color-neutral-50: #f5f5f6;
+  --color-neutral-100: #e5e6e8;
+  --color-neutral-200: #ced0d3;
+  --color-neutral-300: #abaeb5;
+  --color-neutral-400: #82868e;
+  --color-neutral-500: #666973;
+  --color-neutral-600: #585a62;
+  --color-neutral-700: #4b4c53;
+  --color-neutral-800: #424348;
+  --color-neutral-900: #3a3b3f;
+  --color-neutral-950: #242528;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  color: #242528;
+  background-color: #ffffff;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Subtle grid pattern background for Hero and CTA matching Figma 12-column grid */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.11) 1px, transparent 1px);
+  background-size: 120px 120px;
+  background-position: center top;
+}
+
+/* Ambient glow gradient for sections */
+.ambient-glow-section {
+  background: radial-gradient(circle at 10% 20%, rgba(212, 251, 32, 0.16) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(212, 251, 32, 0.16) 0%, transparent 45%),
+              radial-gradient(circle at 50% 50%, rgba(0, 67, 255, 0.03) 0%, transparent 50%),
+              #ffffff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f6;
+}
+::-webkit-scrollbar-thumb {
+  background: #abaeb5;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #82868e;
 }
