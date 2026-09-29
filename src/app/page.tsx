@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import PartnersSection from "@/components/PartnersSection";
 import FeaturedCoursesSection from "@/components/FeaturedCoursesSection";
@@ -10,7 +11,10 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col bg-white">
-      {/* 1. Hero Section with Top Navigation & 3D Decorations */}
+      {/* Static / Fixed Navigation Bar on top */}
+      <Navbar />
+
+      {/* 1. Hero Section with 3D Decorations */}
       <HeroSection />
 
       {/* 2. Partners / Sponsors Bar */}

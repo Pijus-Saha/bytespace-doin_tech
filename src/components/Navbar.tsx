@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag, Menu, X } from "lucide-react";
@@ -8,10 +8,26 @@ import { ShoppingBag, Menu, X } from "lucide-react";
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartCount] = useState(1);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="w-full relative z-40">
-      <nav className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16 pt-8 pb-6 flex items-center justify-between">
+    <header
+      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-[#003be2]/95 backdrop-blur-md shadow-lg border-b border-white/10 py-3.5 sm:py-4"
+          : "bg-transparent py-6 sm:py-8"
+      }`}
+    >
+      <nav className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group transition-transform duration-200 hover:scale-[1.02]">
           <Image

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Search } from "lucide-react";
-import Navbar from "./Navbar";
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,15 +18,12 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative w-full bg-[#003be2] bg-grid-pattern text-white overflow-hidden">
-      {/* Navigation */}
-      <Navbar />
-
+    <section className="relative w-full bg-[#003be2] bg-grid-pattern text-white overflow-hidden pt-24 sm:pt-32 lg:pt-36">
       {/* Hero Content */}
-      <div className="max-w-[1440px] mx-auto px-5 sm:px-12 lg:px-16 pt-6 sm:pt-12 relative z-10 flex flex-col items-center">
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-12 lg:px-16 relative z-10 flex flex-col items-center">
         {/* Floating 3D Shapes (Left Side - hidden on smallest mobile to prevent text clash) */}
         {/* Top Left: 3D Lime Zigzag */}
-        <div className="hidden sm:block absolute left-2 sm:left-6 lg:left-8 top-6 sm:top-12 w-20 sm:w-32 lg:w-44 pointer-events-none select-none z-10">
+        <div className="hidden sm:block absolute left-2 sm:left-6 lg:left-8 top-0 sm:top-2 w-20 sm:w-32 lg:w-44 pointer-events-none select-none z-10">
           <Image
             src="/assets/decorations/3d-lime-zigzag.png"
             alt="3D Lime Zigzag"
@@ -39,7 +35,7 @@ export default function HeroSection() {
         </div>
 
         {/* Mid Left: 3D White Spiral */}
-        <div className="hidden md:block absolute left-4 sm:left-12 lg:left-16 top-[38%] w-14 sm:w-20 lg:w-28 pointer-events-none select-none z-10">
+        <div className="hidden md:block absolute left-4 sm:left-12 lg:left-16 top-[34%] w-14 sm:w-20 lg:w-28 pointer-events-none select-none z-10">
           <Image
             src="/assets/decorations/3d-white-spiral.png"
             alt="3D White Spiral"
@@ -62,7 +58,7 @@ export default function HeroSection() {
 
         {/* Floating 3D Shapes (Right Side) */}
         {/* Top Right: 3D Lime Ribbon/Cylinder */}
-        <div className="hidden sm:block absolute right-2 sm:right-6 lg:right-8 top-4 sm:top-8 w-24 sm:w-36 lg:w-48 pointer-events-none select-none z-10">
+        <div className="hidden sm:block absolute right-2 sm:right-6 lg:right-8 -top-2 sm:top-0 w-24 sm:w-36 lg:w-48 pointer-events-none select-none z-10">
           <Image
             src="/assets/decorations/3d-lime-ribbon.png"
             alt="3D Lime Ribbon"
@@ -74,7 +70,7 @@ export default function HeroSection() {
         </div>
 
         {/* Mid Right: 3D White Cone */}
-        <div className="hidden md:block absolute right-4 sm:right-12 lg:right-16 top-[34%] w-14 sm:w-20 lg:w-28 pointer-events-none select-none z-10">
+        <div className="hidden md:block absolute right-4 sm:right-12 lg:right-16 top-[30%] w-14 sm:w-20 lg:w-28 pointer-events-none select-none z-10">
           <Image
             src="/assets/decorations/3d-white-cone.png"
             alt="3D White Cone"
