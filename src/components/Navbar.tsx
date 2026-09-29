@@ -27,7 +27,7 @@ export default function Navbar() {
           : "bg-transparent py-6 sm:py-8"
       }`}
     >
-      <nav className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16 flex items-center justify-between">
+      <nav className="w-full px-6 sm:px-12 lg:px-16 xl:px-[120px] flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group transition-transform duration-200 hover:scale-[1.02]">
           <Image
