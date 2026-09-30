@@ -7,7 +7,6 @@ import { ShoppingBag, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cartCount] = useState(1);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -82,9 +81,6 @@ export default function Navbar() {
             className="relative p-2 text-white hover:text-[#d4fb20] transition-colors duration-200 rounded-full hover:bg-white/10"
           >
             <ShoppingBag className="w-5 h-5 stroke-[2]" />
-            {cartCount > 0 && (
-              <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-[#d4fb20] rounded-full ring-2 ring-[#0043ff]" />
-            )}
           </button>
         </div>
 
@@ -96,9 +92,6 @@ export default function Navbar() {
             className="relative p-1.5 text-white hover:text-[#d4fb20]"
           >
             <ShoppingBag className="w-6 h-6 stroke-[2]" />
-            {cartCount > 0 && (
-              <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-[#d4fb20] rounded-full" />
-            )}
           </button>
           <button
             type="button"
