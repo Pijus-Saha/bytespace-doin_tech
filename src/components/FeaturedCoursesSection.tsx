@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Star, BarChart2 } from "lucide-react";
 
 const CATEGORIES = [
@@ -171,12 +172,12 @@ export default function FeaturedCoursesSection() {
               </button>
             );
           })}
-          <button
-            type="button"
+          <Link
+            href="/error-404"
             className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-[#f4f4f5] hover:bg-[#e4e4e7] text-neutral-700 transition-all flex items-center gap-1 cursor-pointer"
           >
             <span className="text-[#0043ff] font-semibold">+</span> More
-          </button>
+          </Link>
         </div>
 
         {/* Courses Grid (3 columns x 2 rows) */}
@@ -187,7 +188,7 @@ export default function FeaturedCoursesSection() {
               className="group bg-white rounded-[24px] sm:rounded-[28px] p-3 sm:p-3.5 border border-[#e5e7eb] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_32px_rgba(0,67,255,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
             >
               {/* Thumbnail Container */}
-              <div className="relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100">
+              <Link href="/error-404" className="block relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100">
                 <Image
                   src={course.image}
                   alt={course.title}
@@ -208,14 +209,16 @@ export default function FeaturedCoursesSection() {
                     {course.comments}
                   </span>
                 </div>
-              </div>
+              </Link>
 
               {/* Course Info */}
               <div className="pt-4 pb-2 px-1">
                 {/* Title & Rating */}
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-heading font-bold text-[18px] text-[#111827] leading-snug group-hover:text-[#0043ff] transition-colors truncate">
-                    {course.title}
+                    <Link href="/error-404">
+                      {course.title}
+                    </Link>
                   </h3>
                   <div className="flex items-center gap-1 shrink-0">
                     <span className="text-[#71717a] text-[15px] font-medium">{course.rating}</span>
@@ -225,7 +228,7 @@ export default function FeaturedCoursesSection() {
 
                 {/* Author */}
                 <p className="text-[#71717a] text-xs sm:text-sm mt-1">
-                  by <span className="text-[#0043ff] font-medium hover:underline cursor-pointer">{course.author}</span>
+                  by <Link href="/error-404" className="text-[#0043ff] font-medium hover:underline cursor-pointer">{course.author}</Link>
                 </p>
 
                 {/* Level Badge and Avatars Stack */}

@@ -48,13 +48,13 @@ export default function Navbar() {
             Home
           </Link>
           <Link
-            href="#courses"
+            href="/#courses"
             className="text-white/80 hover:text-[#d4fb20] font-medium text-base transition-colors duration-200"
           >
             Courses
           </Link>
           <Link
-            href="#creators"
+            href="/#creators"
             className="text-white/80 hover:text-[#d4fb20] font-medium text-base transition-colors duration-200"
           >
             Creators
@@ -76,7 +76,7 @@ export default function Navbar() {
             Join Us
           </Link>
           <Link
-            href="/cart"
+            href="/error-404"
             aria-label="Shopping Cart"
             className="relative p-2 text-white hover:text-[#d4fb20] transition-colors duration-200 rounded-full hover:bg-white/10"
           >
@@ -87,7 +87,7 @@ export default function Navbar() {
         {/* Mobile menu trigger */}
         <div className="flex md:hidden items-center gap-4">
           <Link
-            href="/cart"
+            href="/error-404"
             aria-label="Shopping Cart"
             className="relative p-1.5 text-white hover:text-[#d4fb20]"
           >
@@ -116,14 +116,14 @@ export default function Navbar() {
               Home
             </Link>
             <Link
-              href="#courses"
+              href="/#courses"
               onClick={() => setMobileMenuOpen(false)}
               className="text-white/80 hover:text-[#d4fb20] text-lg font-medium py-1"
             >
               Courses
             </Link>
             <Link
-              href="#creators"
+              href="/#creators"
               onClick={() => setMobileMenuOpen(false)}
               className="text-white/80 hover:text-[#d4fb20] text-lg font-medium py-1"
             >
