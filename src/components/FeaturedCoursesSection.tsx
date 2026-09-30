@@ -180,69 +180,79 @@ export default function FeaturedCoursesSection() {
         </div>
 
         {/* Courses Grid (3 columns x 2 rows) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 max-w-[1200px] mx-auto">
           {filteredCourses.map((course) => (
             <div
               key={course.id}
-              className="group bg-white rounded-[28px] p-4 sm:p-5 border border-neutral-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(0,67,255,0.08)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+              className="group bg-white rounded-[28px] sm:rounded-[32px] p-4 border border-[#e5e7eb] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_32px_rgba(0,67,255,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
             >
               {/* Thumbnail Container */}
-              <div className="relative w-full aspect-[341/196] rounded-2xl overflow-hidden bg-neutral-100">
+              <div className="relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100">
                 <Image
                   src={course.image}
                   alt={course.title}
                   fill
+                  unoptimized
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
+
+                {/* Actual Content Boxes: Lessons, Duration, Comments */}
+                <div className="absolute bottom-3 left-2.5 right-2.5 sm:left-3 sm:right-3 flex items-center justify-between gap-1 sm:gap-1.5 z-10 select-none">
+                  <span className="px-2.5 py-1 rounded-full bg-white/70 backdrop-blur-md text-[#242528] text-[11px] font-medium border border-white/40 shadow-xs whitespace-nowrap text-center">
+                    {course.lessons}
+                  </span>
+                  <span className="px-2.5 py-1 rounded-full bg-white/70 backdrop-blur-md text-[#242528] text-[11px] font-medium border border-white/40 shadow-xs whitespace-nowrap text-center">
+                    {course.duration}
+                  </span>
+                  <span className="px-2.5 py-1 rounded-full bg-white/70 backdrop-blur-md text-[#242528] text-[11px] font-medium border border-white/40 shadow-xs whitespace-nowrap text-center">
+                    {course.comments}
+                  </span>
+                </div>
               </div>
 
               {/* Course Info */}
-              <div className="pt-5 pb-2">
+              <div className="pt-4 pb-2 px-1">
+                {/* Title & Rating */}
                 <div className="flex items-center justify-between gap-2">
-                  <h3 className="font-heading font-semibold text-lg sm:text-xl text-neutral-900 group-hover:text-[#0043ff] transition-colors truncate">
+                  <h3 className="font-heading font-bold text-[18px] text-[#111827] leading-snug group-hover:text-[#0043ff] transition-colors truncate">
                     {course.title}
                   </h3>
-                  <div className="flex items-center gap-1 text-neutral-400 shrink-0">
-                    <span className="text-neutral-600 text-sm font-medium">{course.rating}</span>
-                    <Star className="w-4 h-4 fill-neutral-300 text-neutral-300" />
+                  <div className="flex items-center gap-1 shrink-0">
+                    <span className="text-[#71717a] text-[15px] font-medium">{course.rating}</span>
+                    <Star className="w-4 h-4 fill-[#b0b5be] text-[#b0b5be]" />
                   </div>
                 </div>
 
-                <p className="text-neutral-400 text-sm mt-1">
-                  by <span className="text-[#0043ff] hover:underline cursor-pointer">{course.author}</span>
+                {/* Author */}
+                <p className="text-[#71717a] text-xs sm:text-sm mt-1">
+                  by <span className="text-[#0043ff] font-medium hover:underline cursor-pointer">{course.author}</span>
                 </p>
 
                 {/* Level Badge and Avatars Stack */}
-                <div className="flex items-center justify-between mt-5 pt-1">
+                <div className="flex items-center justify-between mt-5">
                   {/* Beginner pill badge */}
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 text-neutral-600 text-xs font-medium">
-                    <BarChart2 className="w-3.5 h-3.5 text-neutral-500" />
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#f4f4f5] text-[#52525b] text-xs font-medium">
+                    <BarChart2 className="w-3.5 h-3.5 text-[#71717a]" />
                     <span>{course.level}</span>
                   </div>
 
-                  {/* Avatars Stack */}
-                  <div className="flex items-center -space-x-2">
-                    <div className="w-6 h-6 rounded-full border-2 border-white overflow-hidden relative">
-                      <Image src="/assets/avatars/avatar-male-senior.png" alt="Learner" fill className="object-cover" />
-                    </div>
-                    <div className="w-6 h-6 rounded-full border-2 border-white overflow-hidden relative">
-                      <Image src="/assets/avatars/avatar-female-yellow-bg.png" alt="Learner" fill className="object-cover" />
-                    </div>
-                    <div className="w-6 h-6 rounded-full border-2 border-white overflow-hidden relative">
-                      <Image src="/assets/avatars/avatar-male-glasses.png" alt="Learner" fill className="object-cover" />
-                    </div>
-                    <div className="w-6 h-6 rounded-full bg-[#d4fb20] border-2 border-white flex items-center justify-center text-[9px] font-bold text-neutral-900">
-                      {course.studentsCount}
-                    </div>
+                  {/* Avatars Stack matching Figma exact asset */}
+                  <div className="relative w-[120px] h-[30px] shrink-0">
+                    <Image
+                      src="/assets/avatars/avatar-stack-users.png"
+                      alt="Enrolled students"
+                      fill
+                      className="object-contain"
+                    />
                   </div>
                 </div>
 
-                {/* Price */}
-                <div className="mt-5 pt-3 border-t border-neutral-100 flex items-baseline gap-1">
-                  <span className="font-heading font-bold text-2xl text-[#0043ff]">
+                {/* Price (Clean without divider line, exactly matching Figma) */}
+                <div className="mt-5 flex items-baseline gap-1">
+                  <span className="font-heading font-bold text-2xl text-[#0043ff] leading-none">
                     ${course.price}
                   </span>
-                  <span className="text-neutral-500 text-sm">/lifetime</span>
+                  <span className="text-[#71717a] text-xs font-normal">/lifetime</span>
                 </div>
               </div>
             </div>
