@@ -10,20 +10,20 @@ const PARTNERS = [
 
 export default function PartnersSection() {
   return (
-    <section className="w-full bg-white py-12 sm:py-16 border-b border-neutral-100">
-      <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
-        <div className="flex flex-wrap items-center justify-center sm:justify-between gap-8 md:gap-12">
+    <section className="w-full bg-[#f5f5f6] py-16 lg:py-[80px]">
+      <div className="max-w-[1160px] mx-auto px-6 sm:px-10 lg:px-8">
+        <div className="flex flex-wrap items-center justify-center sm:justify-between gap-8 md:gap-10">
           {PARTNERS.map((partner) => (
             <div
               key={partner.id}
-              className="flex items-center justify-center transition-all duration-300 opacity-60 hover:opacity-100 grayscale hover:grayscale-0 hover:scale-105"
+              className="flex items-center justify-center transition-transform duration-300 hover:scale-105"
             >
               <Image
                 src={partner.src}
                 alt={partner.alt}
                 width={partner.width}
                 height={partner.height}
-                className="h-7 sm:h-9 w-auto object-contain"
+                className="h-9 sm:h-10 lg:h-[42px] w-auto object-contain"
               />
             </div>
           ))}

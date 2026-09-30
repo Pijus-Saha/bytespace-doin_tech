@@ -42,20 +42,20 @@ const CATEGORIES = [
 
 export default function LearningPathsSection() {
   return (
-    <section id="categories" className="w-full bg-white py-20 sm:py-24 border-t border-neutral-100">
-      <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
+    <section id="categories" className="w-full bg-white py-14 sm:py-16 lg:pt-[72px] lg:pb-[76px]">
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
-          <h2 className="font-heading font-semibold text-3xl sm:text-4xl md:text-[44px] leading-tight text-neutral-900">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+          <h2 className="font-heading font-semibold text-3xl sm:text-4xl md:text-[42px] leading-tight text-neutral-900">
             Explore Diverse Learning Paths at Bytespace
           </h2>
-          <p className="mt-4 text-neutral-500 font-normal text-base sm:text-lg leading-relaxed">
+          <p className="mt-3.5 text-neutral-500 font-normal text-sm sm:text-base md:text-[17px] leading-relaxed max-w-2xl mx-auto">
             At Bytespace, we believe in empowering individuals through knowledge. Our diverse range of courses spans various fields, ensuring there&apos;s something for everyone. Unleash your potential and explore our carefully curated categories.
           </p>
         </div>
 
         {/* 6 Category Cards Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-7">
+        <div className="max-w-[1160px] mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5 sm:gap-6">
           {CATEGORIES.map((cat) => (
             <Link
               key={cat.id}

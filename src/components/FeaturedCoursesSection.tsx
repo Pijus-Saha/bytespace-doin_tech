@@ -139,21 +139,21 @@ export default function FeaturedCoursesSection() {
       : COURSES.filter((c) => c.category === activeCategory || true);
 
   return (
-    <section id="courses" className="w-full bg-white py-20 sm:py-28 relative">
-      <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
+    <section id="courses" className="w-full bg-white pt-14 pb-14 sm:pt-16 sm:pb-16 lg:pt-[76px] lg:pb-[76px] relative">
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <h2 className="font-heading font-semibold text-3xl sm:text-4xl md:text-[44px] leading-tight text-neutral-900">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-9">
+          <h2 className="font-heading font-semibold text-3xl sm:text-4xl md:text-[42px] leading-tight text-neutral-900">
             Discover Your Passion, <br className="hidden sm:inline" />
             Build Your Skills
           </h2>
-          <p className="mt-4 text-neutral-500 font-normal text-base sm:text-lg leading-relaxed">
+          <p className="mt-3.5 text-neutral-500 font-normal text-sm sm:text-base md:text-[17px] leading-relaxed max-w-2xl mx-auto">
             At Bytespace Courses, we bring you closer to life-changing knowledge. Explore a variety of courses across different fields, from technology to the arts, and make a difference in your career and life.
           </p>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 max-w-5xl mx-auto mb-16">
+        {/* Filter Pills matching 2-row layout in Figma */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 max-w-[1120px] mx-auto mb-10 sm:mb-12">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             return (
@@ -161,10 +161,10 @@ export default function FeaturedCoursesSection() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 sm:px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
+                className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer ${
                   isActive
                     ? "bg-[#d4fb20] text-neutral-900 shadow-sm font-semibold"
-                    : "bg-neutral-100/80 hover:bg-neutral-200/80 text-neutral-700 border border-transparent"
+                    : "bg-[#f4f4f5] hover:bg-[#e4e4e7] text-neutral-700 border border-transparent"
                 }`}
               >
                 {cat}
@@ -173,18 +173,18 @@ export default function FeaturedCoursesSection() {
           })}
           <button
             type="button"
-            className="px-4 sm:px-5 py-2 rounded-full text-sm font-medium bg-neutral-100/80 hover:bg-neutral-200/80 text-neutral-700 transition-all flex items-center gap-1 cursor-pointer"
+            className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-[#f4f4f5] hover:bg-[#e4e4e7] text-neutral-700 transition-all flex items-center gap-1 cursor-pointer"
           >
             <span className="text-[#0043ff] font-semibold">+</span> More
           </button>
         </div>
 
         {/* Courses Grid (3 columns x 2 rows) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 max-w-[1200px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7 max-w-[1160px] mx-auto">
           {filteredCourses.map((course) => (
             <div
               key={course.id}
-              className="group bg-white rounded-[28px] sm:rounded-[32px] p-4 border border-[#e5e7eb] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_32px_rgba(0,67,255,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+              className="group bg-white rounded-[24px] sm:rounded-[28px] p-3 sm:p-3.5 border border-[#e5e7eb] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_32px_rgba(0,67,255,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
             >
               {/* Thumbnail Container */}
               <div className="relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100">

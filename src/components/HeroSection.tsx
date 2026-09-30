@@ -18,7 +18,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative w-full bg-[#003be2] bg-grid-pattern text-white overflow-hidden pt-28 sm:pt-32 lg:pt-36">
+    <section className="relative w-full bg-[#003be2] bg-grid-pattern text-white overflow-hidden pt-28 sm:pt-32 lg:pt-[175px] lg:h-[1024px]">
       
       {/* ================= 3D DECORATIONS (ANCHORED TO FULL SCREEN EDGES) ================= */}
 
@@ -91,7 +91,7 @@ export default function HeroSection() {
       </div>
 
       {/* ================= CENTER CONTENT CONTAINER ================= */}
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 relative flex flex-col items-center">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 flex flex-col items-center">
         
         {/* Main Heading */}
         <h1 className="text-center font-heading font-semibold text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.12] tracking-tight max-w-4xl text-white relative z-20 px-2">
@@ -126,7 +126,7 @@ export default function HeroSection() {
         </form>
 
         {/* ================= CENTER STAGE (ARCH + STUDENT + BADGES) ================= */}
-        <div className="relative w-full max-w-[1240px] mt-6 sm:mt-10 h-[340px] sm:h-[480px] lg:h-[580px] flex justify-center items-end select-none">
+        <div className="relative lg:absolute lg:bottom-0 lg:left-1/2 lg:-translate-x-1/2 w-full max-w-[1240px] mt-6 sm:mt-10 lg:mt-0 h-[340px] sm:h-[480px] lg:h-[530px] flex justify-center items-end select-none">
           {/* Lime Arch Background */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[720px] sm:w-[980px] lg:w-[1180px] pointer-events-none select-none z-0">
             <Image

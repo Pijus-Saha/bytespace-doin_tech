@@ -3,7 +3,7 @@ import { Check } from "lucide-react";
 
 export default function FeaturesSection() {
   return (
-    <section className="w-full relative overflow-hidden bg-white py-16 sm:py-24 lg:py-28">
+    <section className="w-full relative overflow-hidden bg-white py-16 sm:py-20 lg:pt-[76px] lg:pb-[76px]">
       {/* Ambient background glows matching Figma design */}
       <div 
         className="absolute inset-0 pointer-events-none"
@@ -17,7 +17,7 @@ export default function FeaturesSection() {
         }}
       />
 
-      <div className="relative max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 xl:px-[120px] space-y-20 sm:space-y-28 lg:space-y-24">
+      <div className="relative max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 xl:px-[120px] space-y-20 sm:space-y-24 lg:space-y-[100px]">
         
         {/* ================= BLOCK 1: FOR LEARNERS ================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-14 items-center">
@@ -61,7 +61,7 @@ export default function FeaturesSection() {
 
           {/* Right Visual Element Composite */}
           <div className="lg:col-span-6 xl:col-span-7 relative flex justify-center lg:justify-end items-center select-none">
-            <div className="relative w-full max-w-[540px] lg:max-w-[620px] xl:max-w-[660px] aspect-[650/630]">
+            <div className="relative w-full max-w-[500px] lg:max-w-[560px] xl:max-w-[600px] aspect-[650/610]">
               {/* 1. Lime 3D Spring Decoration (z-30, on top of Learning Progress widget) */}
               <div className="absolute left-[75%] top-[24%] w-[18%] z-30 pointer-events-none select-none">
                 <Image
@@ -166,7 +166,7 @@ export default function FeaturesSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-14 items-center">
           {/* Left Visual Element Composite */}
           <div className="lg:col-span-6 relative flex justify-center lg:justify-start items-center select-none order-2 lg:order-1">
-            <div className="relative w-full max-w-[480px] lg:max-w-[540px] xl:max-w-[580px] aspect-[640/700]">
+            <div className="relative w-full max-w-[460px] lg:max-w-[500px] xl:max-w-[540px] aspect-[640/670]">
               {/* 1. Total Revenue Widget (z-0) */}
               <div className="absolute left-[4%] top-[8%] w-[36%] bg-[#0043ff] rounded-xl sm:rounded-2xl p-2.5 sm:p-4 text-white shadow-[0_16px_40px_rgba(0,67,255,0.22)] z-0 transition-transform duration-300 hover:scale-[1.02]">
                 <p className="text-white text-[10px] sm:text-[13px] font-medium leading-none">
