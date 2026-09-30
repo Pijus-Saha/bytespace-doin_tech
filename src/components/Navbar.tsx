@@ -75,24 +75,24 @@ export default function Navbar() {
           >
             Join Us
           </Link>
-          <button
-            type="button"
+          <Link
+            href="/cart"
             aria-label="Shopping Cart"
             className="relative p-2 text-white hover:text-[#d4fb20] transition-colors duration-200 rounded-full hover:bg-white/10"
           >
             <ShoppingBag className="w-5 h-5 stroke-[2]" />
-          </button>
+          </Link>
         </div>
 
         {/* Mobile menu trigger */}
         <div className="flex md:hidden items-center gap-4">
-          <button
-            type="button"
+          <Link
+            href="/cart"
             aria-label="Shopping Cart"
             className="relative p-1.5 text-white hover:text-[#d4fb20]"
           >
             <ShoppingBag className="w-6 h-6 stroke-[2]" />
-          </button>
+          </Link>
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
