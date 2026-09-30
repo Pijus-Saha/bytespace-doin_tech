@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
@@ -15,6 +15,24 @@ export default function RegisterPage() {
   const [passwordError, setPasswordError] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        const scaleH = (window.innerHeight - 20) / 1024;
+        const scaleW = window.innerWidth / 1440;
+        const s = Math.min(1, scaleH, scaleW);
+        setScale(Math.max(0.6, s));
+      } else {
+        setScale(1);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +49,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#003be2] relative overflow-x-hidden flex flex-col justify-between selection:bg-[#d4fb20] selection:text-black">
+    <div className="min-h-screen w-full bg-[#003be2] relative overflow-x-hidden lg:overflow-hidden lg:h-screen flex items-center justify-center selection:bg-[#d4fb20] selection:text-black">
       {/* 120px Modular Grid Pattern Overlay */}
       <div 
         className="absolute inset-0 pointer-events-none"
@@ -46,7 +64,13 @@ export default function RegisterPage() {
       />
 
       {/* Main 1440px Container Frame */}
-      <div className="relative z-10 w-full max-w-[1440px] min-h-screen mx-auto px-6 sm:px-12 lg:px-[120px] pt-[35px] pb-10 lg:pb-[122px] flex flex-col">
+      <div 
+        className="relative z-10 w-full max-w-[1440px] min-h-screen lg:min-h-0 lg:h-[1024px] mx-auto px-6 sm:px-12 lg:px-[120px] pt-[35px] pb-10 lg:pb-0 flex flex-col justify-start shrink-0"
+        style={{
+          transform: scale < 1 ? `scale(${scale})` : undefined,
+          transformOrigin: "center center",
+        }}
+      >
         
         {/* Top Header: ByteSpace Lime Brand Mark */}
         <header className="w-full flex items-center">
