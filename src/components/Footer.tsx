@@ -18,7 +18,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full bg-white border-t border-neutral-200/80 pt-16 sm:pt-20 pb-12">
-      <div className="max-w-[1360px] mx-auto px-6 sm:px-12 lg:px-16">
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 xl:px-[120px]">
         
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-16">
@@ -44,7 +44,7 @@ export default function Footer() {
             </p>
 
             {/* Newsletter Form */}
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-md">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-[504px]">
               <input
                 type="email"
                 required
@@ -172,7 +172,7 @@ export default function Footer() {
 
         {/* Bottom Bar Divider */}
         <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <p>© 2023 ByteSpace. All rights reserved.</p>
+          <p>@ 2023 ByteSpace. All rights reserved.</p>
 
           <div className="flex items-center gap-6">
             <Link href="#" className="hover:text-neutral-900 transition-colors">
