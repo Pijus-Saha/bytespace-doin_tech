@@ -45,7 +45,7 @@ export default function LoginPage() {
       />
 
       {/* Main 1440px Container Frame */}
-      <div className="relative z-10 w-full max-w-[1440px] min-h-screen mx-auto px-6 sm:px-12 lg:px-[120px] pt-[35px] pb-10 flex flex-col justify-between">
+      <div className="relative z-10 w-full max-w-[1440px] min-h-screen mx-auto px-6 sm:px-12 lg:px-[120px] pt-[35px] pb-10 lg:pb-[122px] flex flex-col">
         
         {/* Top Header: ByteSpace Brand Logo */}
         <header className="w-full flex items-center">
@@ -66,7 +66,7 @@ export default function LoginPage() {
         </header>
 
         {/* Main Content Area: Split 2-Column Grid */}
-        <main className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start my-auto pt-6 lg:pt-[50px] pb-6">
+        <main className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start mt-6 lg:mt-[53px]">
           
           {/* Left Column: Heading, Subtitle & Course Cluster */}
           <div className="lg:col-span-6 flex flex-col items-start">
@@ -82,14 +82,14 @@ export default function LoginPage() {
             </p>
 
             {/* 3D Composite Graphic Stack Composed of Real Elements */}
-            <div className="mt-6 sm:mt-8 relative -ml-[24px]">
+            <div className="mt-6 sm:mt-8 lg:mt-[72px] relative -ml-[24px]">
               <RegisterCourseCluster />
             </div>
           </div>
 
           {/* Right Column: Login Card */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end">
-            <div className="w-full max-w-[575px] bg-white rounded-[36px] sm:rounded-[40px] lg:rounded-[44px] px-8 sm:px-12 lg:px-[52px] pt-10 sm:pt-12 lg:pt-[54px] pb-10 sm:pb-12 shadow-[0_35px_80px_rgba(0,18,80,0.38)] relative flex flex-col justify-between min-h-[580px] sm:min-h-[680px] lg:min-h-[760px]">
+            <div className="w-full max-w-[576px] lg:w-[576px] lg:h-[782px] bg-white rounded-[36px] sm:rounded-[40px] lg:rounded-[44px] px-8 sm:px-12 lg:px-[60px] pt-10 sm:pt-12 lg:pt-[56px] pb-10 sm:pb-12 lg:pb-[56px] shadow-[0_35px_80px_rgba(0,18,80,0.38)] relative flex flex-col justify-between">
               
               {isSubmitted ? (
                 /* Success State */
@@ -191,39 +191,41 @@ export default function LoginPage() {
                   </form>
 
                   {/* Or divider */}
-                  <div className="relative my-7 sm:my-8 flex items-center justify-center">
+                  <div className="relative my-8 sm:my-10 flex items-center justify-center">
                     <div className="border-t border-neutral-200 w-full" />
                     <span className="bg-white px-3 text-xs sm:text-sm text-neutral-400 absolute">
                       or
                     </span>
                   </div>
 
-                  {/* Social Buttons */}
-                  <div className="flex items-center justify-center gap-4">
+                  {/* Social Buttons: 72x72 Squircle Figma assets */}
+                  <div className="flex items-center justify-center gap-5">
                     <button
                       type="button"
                       aria-label="Continue with Facebook"
-                      className="w-13 h-13 rounded-full border border-neutral-200 flex items-center justify-center hover:bg-neutral-50 hover:border-neutral-300 transition-all hover:scale-105 active:scale-95 shadow-2xs"
+                      className="w-[72px] h-[72px] relative transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none"
                     >
                       <Image
                         src="/assets/brand/icon-social-facebook.png"
                         alt="Facebook"
-                        width={24}
-                        height={24}
-                        className="w-5 h-5 object-contain"
+                        width={72}
+                        height={72}
+                        priority
+                        className="w-full h-full object-contain"
                       />
                     </button>
                     <button
                       type="button"
                       aria-label="Continue with Google"
-                      className="w-13 h-13 rounded-full border border-neutral-200 flex items-center justify-center hover:bg-neutral-50 hover:border-neutral-300 transition-all hover:scale-105 active:scale-95 shadow-2xs"
+                      className="w-[72px] h-[72px] relative transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none"
                     >
                       <Image
                         src="/assets/brand/icon-social-google.png"
                         alt="Google"
-                        width={24}
-                        height={24}
-                        className="w-5 h-5 object-contain"
+                        width={72}
+                        height={72}
+                        priority
+                        className="w-full h-full object-contain"
                       />
                     </button>
                   </div>
@@ -231,7 +233,7 @@ export default function LoginPage() {
               )}
 
               {/* Card Footer: New user? Create an account */}
-              <div className="mt-8 sm:mt-10 text-center text-sm sm:text-[15px] text-neutral-700">
+              <div className="mt-8 text-center text-sm sm:text-[15px] text-neutral-600">
                 New user?{" "}
                 <Link
                   href="/register"

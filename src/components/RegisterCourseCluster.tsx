@@ -210,7 +210,7 @@ export default function RegisterCourseCluster() {
       {/* ================= 6. 3D DECORATION: White Squiggle Ribbon (Right) ================= */}
       <div 
         className="absolute z-40 pointer-events-none drop-shadow-xl"
-        style={{ left: "400px", top: "330px", width: "122px", height: "141px" }}
+        style={{ left: "384px", top: "314px", width: "136px", height: "155px" }}
       >
         <Image
           src="/assets/decorations/3d-white-ribbon-hero.png"

@@ -46,7 +46,7 @@ export default function RegisterPage() {
       />
 
       {/* Main 1440px Container Frame */}
-      <div className="relative z-10 w-full max-w-[1440px] min-h-screen mx-auto px-6 sm:px-12 lg:px-[120px] pt-[35px] pb-10 flex flex-col justify-between">
+      <div className="relative z-10 w-full max-w-[1440px] min-h-screen mx-auto px-6 sm:px-12 lg:px-[120px] pt-[35px] pb-10 lg:pb-[122px] flex flex-col">
         
         {/* Top Header: ByteSpace Lime Brand Mark */}
         <header className="w-full flex items-center">
@@ -67,7 +67,7 @@ export default function RegisterPage() {
         </header>
 
         {/* Main Content Area: Split 2-Column Grid */}
-        <main className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start my-auto pt-6 lg:pt-[50px] pb-6">
+        <main className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start mt-6 lg:mt-[53px]">
           
           {/* Left Column: Heading, Subtitle & Course Cluster */}
           <div className="lg:col-span-6 flex flex-col items-start">
@@ -83,14 +83,14 @@ export default function RegisterPage() {
             </p>
 
             {/* 3D Composite Graphic Stack Composed of Real Elements */}
-            <div className="mt-6 sm:mt-8 relative -ml-[24px]">
+            <div className="mt-6 sm:mt-8 lg:mt-[46px] relative -ml-[24px]">
               <RegisterCourseCluster />
             </div>
           </div>
 
           {/* Right Column: Register Card */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end">
-            <div className="w-full max-w-[575px] bg-white rounded-[36px] sm:rounded-[40px] lg:rounded-[44px] px-8 sm:px-12 lg:px-[52px] pt-10 sm:pt-12 lg:pt-[54px] pb-10 sm:pb-12 shadow-[0_35px_80px_rgba(0,18,80,0.38)] relative flex flex-col justify-between min-h-[580px] sm:min-h-[680px] lg:min-h-[760px]">
+            <div className="w-full max-w-[576px] lg:w-[576px] lg:h-[782px] bg-white rounded-[36px] sm:rounded-[40px] lg:rounded-[44px] px-8 sm:px-12 lg:px-[60px] pt-10 sm:pt-12 lg:pt-[56px] pb-10 sm:pb-12 lg:pb-[56px] shadow-[0_35px_80px_rgba(0,18,80,0.38)] relative flex flex-col justify-between">
               
               {isSubmitted ? (
                 /* Success State */
