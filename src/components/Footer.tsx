@@ -68,7 +68,11 @@ export default function Footer() {
             )}
 
             <p className="text-xs text-neutral-400 mt-4 leading-relaxed max-w-sm">
-              By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
+              By subscribing, you agree to our{" "}
+              <Link href="/error-404" className="underline hover:text-neutral-600 transition-colors">
+                Privacy Policy
+              </Link>{" "}
+              and consent to receive updates from our company.
             </p>
           </div>
 
@@ -78,27 +82,27 @@ export default function Footer() {
             <div className="space-y-4">
               <ul className="space-y-3.5">
                 <li>
-                  <Link href="#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Featured Courses
                   </Link>
                 </li>
                 <li>
-                  <Link href="#categories" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/#categories" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Featured Categories
                   </Link>
                 </li>
                 <li>
-                  <Link href="#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Business
                   </Link>
                 </li>
                 <li>
-                  <Link href="#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     IT
                   </Link>
                 </li>
                 <li>
-                  <Link href="#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Design
                   </Link>
                 </li>
@@ -109,27 +113,27 @@ export default function Footer() {
             <div className="space-y-4">
               <ul className="space-y-3.5">
                 <li>
-                  <Link href="#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Development
                   </Link>
                 </li>
                 <li>
-                  <Link href="#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Marketing
                   </Link>
                 </li>
                 <li>
-                  <Link href="#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Photography
                   </Link>
                 </li>
                 <li>
-                  <Link href="#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Finance
                   </Link>
                 </li>
                 <li>
-                  <Link href="#courses" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Sport
                   </Link>
                 </li>
@@ -140,27 +144,27 @@ export default function Footer() {
             <div className="space-y-4 col-span-2 sm:col-span-1">
               <ul className="space-y-3.5">
                 <li>
-                  <Link href="#creators" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/#creators" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Become a Creator
                   </Link>
                 </li>
                 <li>
-                  <Link href="#creators" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Affiliate Program
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Contact
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     Help
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
+                  <Link href="/error-404" className="text-neutral-700 hover:text-[#0043ff] text-sm sm:text-base transition-colors font-medium">
                     About
                   </Link>
                 </li>
@@ -175,13 +179,13 @@ export default function Footer() {
           <p>@ 2023 ByteSpace. All rights reserved.</p>
 
           <div className="flex items-center gap-6">
-            <Link href="#" className="hover:text-neutral-900 transition-colors">
+            <Link href="/error-404" className="hover:text-neutral-900 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#" className="hover:text-neutral-900 transition-colors">
+            <Link href="/error-404" className="hover:text-neutral-900 transition-colors">
               Terms of Service
             </Link>
-            <Link href="#" className="hover:text-neutral-900 transition-colors">
+            <Link href="/error-404" className="hover:text-neutral-900 transition-colors">
               Cookies Settings
             </Link>
           </div>

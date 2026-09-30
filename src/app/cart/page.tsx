@@ -1,5 +1,6 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function CartPage() {
-  notFound();
+  redirect("/error-404");
 }
+
