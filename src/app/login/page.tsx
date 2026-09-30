@@ -11,11 +11,17 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+  const [passwordError, setPasswordError] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.password.length < 8) {
+      setPasswordError("Password must be at least 8 characters long.");
+      return;
+    }
+    setPasswordError("");
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
@@ -152,13 +158,24 @@ export default function LoginPage() {
                         id="login-password"
                         type="password"
                         required
+                        minLength={8}
                         value={formData.password}
-                        onChange={(e) =>
-                          setFormData({ ...formData, password: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setFormData({ ...formData, password: e.target.value });
+                          if (passwordError && e.target.value.length >= 8) {
+                            setPasswordError("");
+                          }
+                        }}
                         placeholder="********"
-                        className="w-full px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl sm:rounded-[16px] border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-[#003be2] focus:ring-2 focus:ring-[#003be2]/20 transition-all text-sm sm:text-base bg-white tracking-widest"
+                        className={`w-full px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl sm:rounded-[16px] border ${
+                          passwordError ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-neutral-200 focus:border-[#003be2] focus:ring-[#003be2]/20"
+                        } text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 transition-all text-sm sm:text-base bg-white tracking-widest`}
                       />
+                      {passwordError && (
+                        <p className="mt-1.5 text-xs text-red-500 font-medium">
+                          {passwordError}
+                        </p>
+                      )}
                     </div>
 
                     {/* Action Button: Aligned to Right */}
