@@ -94,7 +94,29 @@ Complete, 1:1 pixel-accurate implementation of the three course views from Figma
 - **Dynamic Routing & Seamless Tab Switching**:
   - The unified [CourseDetailsView.tsx](src/components/CourseDetailsView.tsx) component supports instantaneous client-side tab switching with synchronized URL states, while dedicated page routes provide direct server-side rendering for each tab.
 
-### 6. Repository Cleanup & Agent Skill — [Completed ✅]
+### 6. Creator Profile Page (`/creators`, `/creators/[id]`, `/creator`) — [Completed ✅]
+Complete, 1:1 pixel-accurate implementation of the Creator Profile page matching Figma specification:
+- **Figma specification**: [`mockup-creator-profile.png`](public/assets/designs/mockup-creator-profile.png).
+- **Hero & Profile Banner**:
+  - Full-bleed electric blue background (`#003be2`) with 120px modular grid overlay extending seamlessly beneath the fixed navbar.
+  - Creator squircle avatar with rounded corners, creator name (*PurePearl Studio*), lime creator badge (*Creator*), and designer bio subtitle (*Passionate UI/UX, Web designer*).
+  - Exact creator bio text block with comfortable line height and typography.
+  - Stat pill badges: *3 Products* and interactive *12 Followers* counter.
+  - Interactive lime *Follow* button: toggles follow status, increments follower count to 13, and provides instant visual feedback.
+- **Controls & Filter Bar**:
+  - *Filter* button with interactive filter popover (skill level, category, reset and apply actions).
+  - *Level* dropdown button with custom 3-bar signal icon (All Levels, Beginner, Intermediate, Advanced).
+  - *Category* dropdown button with custom geometric shapes icon (All Categories, UI/UX Design, Data & Tech, Productivity, Business).
+  - *Most relevant* sort dropdown with custom 3-line sort icon (Most relevant, Highest rated, Price low-to-high, Price high-to-low).
+- **6-Course Card Grid (2 rows × 3 columns)**:
+  - Exact 6 creator courses matching Figma: *Learn Figma from Basic*, *Build Digital Asset*, *the Power of Big Data*, *Balancing Productivity an...*, *Mastering Money Manage...*, and *From Idea to Startup Succ...*.
+  - Overlaid frosted glass badges (*17 Lessons*, *2 hours 16 mins*, *59 Comments*).
+  - Rating (*4.5 ★*), author attribution (*by purepearl studio*), *Beginner* level badge, enrolled avatar cluster (*26+*), and *$25/lifetime* price display.
+- **Cross-Platform Routing & Integration**:
+  - Dedicated `/creators` page with SSR metadata and dynamic `/creators/[id]` route support.
+  - Seamless navigation from global Navbar *Creators* link (with active route indicator), Course Details *See Full Profile* button, and course card instructor links.
+
+### 7. Repository Cleanup & Agent Skill — [Completed ✅]
 - **Agent Skill**: [`.agents/skills/repo-cleanup-docs/SKILL.md`](.agents/skills/repo-cleanup-docs/SKILL.md).
 - **Automated CLI Runner**: [`.agents/skills/repo-cleanup-docs/scripts/cleanup.mjs`](.agents/skills/repo-cleanup-docs/scripts/cleanup.mjs) (`--dry-run` and `--fix`).
 - **Safety Protocol**: [`.agents/skills/repo-cleanup-docs/references/cleanup-checklist.md`](.agents/skills/repo-cleanup-docs/references/cleanup-checklist.md).
@@ -102,7 +124,7 @@ Complete, 1:1 pixel-accurate implementation of the three course views from Figma
   - Automatically audited public assets against source code references.
   - Safely eliminated unreferenced, redundant, and duplicate assets (superseded prototype illustrations, unreferenced raster widgets, temporary crops, and build caches).
   - Reclaimed over **24 MB** across cleanup runs.
-  - Zero broken imports: verified with `npm run lint` (0 errors) and `npm run build` (all 14 routes statically compiled).
+  - Zero broken imports: verified with `npm run lint` (0 errors) and `npm run build` (all 16 routes statically compiled).
 
 ---
 
@@ -117,6 +139,7 @@ As instructed in the assessment guidelines, all development followed a clean, pr
 - `feature/minor-ui-fix`: Design fidelity adjustments, responsive scale fixes, and comprehensive 404 link routing.
 - `feature/search-page`: Search & Course catalog page, error-404 pagination routing, and repository cleanup skill.
 - `feature/course-details-suite`: Course Details, Lessons, and Reviews suite with dynamic routing and verified 1:1 design scale.
+- `feature/creator-profile`: Creator Profile page (`/creators`, `/creators/[id]`, `/creator`) matching Figma specification with 120px modular grid, creator bio, stat pills, interactive follow action, and 6-course card grid.
 
 All commits are atomic and descriptive, and ready for Pull Request (PR) review.
 
@@ -148,14 +171,14 @@ bytespace-doin_tech/
 │               └── cleanup-checklist.md # Safe deletion checklist & protection rules
 ├── public/
 │   └── assets/
-│       ├── avatars/          # User avatar stacks and student testimonials
+│       ├── avatars/          # User avatar stacks, creator profiles, and student testimonials
 │       ├── brand/            # ByteSpace logos and social provider icons
 │       ├── categories/       # Category thumbnail icons
 │       ├── course-details/   # Video player thumbnail, sneak peaks, creator and reviewer avatars
 │       ├── courses/          # Course thumbnails and cover graphics
 │       ├── decorations/      # 3D assets (torus rings, ribbons, pyramids, cones, cylinders)
 │       ├── designs/          # Figma design mockups and reference specifications
-│       ├── heroes/           # Hero student cutout graphic
+│       ├── heroes/           # Student cutout graphics and tablet models
 │       ├── partners/         # Brand partner logos
 │       └── widgets/          # Badges and widget graphics
 ├── src/
@@ -182,6 +205,12 @@ bytespace-doin_tech/
 │   │   │       ├── page.tsx          # Dynamic course route with tab query support
 │   │   │       ├── lessons/page.tsx  # Dynamic course lessons route
 │   │   │       └── reviews/page.tsx  # Dynamic course reviews route
+│   │   ├── creators/
+│   │   │   ├── page.tsx      # Creator Profile page matching Figma specification
+│   │   │   └── [id]/
+│   │   │       └── page.tsx  # Dynamic creator profile route
+│   │   ├── creator/
+│   │   │   └── page.tsx      # Redirect alias to /creators
 │   │   ├── search/
 │   │   │   └── page.tsx      # Interactive search & filter page matching Figma
 │   │   ├── login/
@@ -191,6 +220,7 @@ bytespace-doin_tech/
 │   └── components/
 │       ├── Navbar.tsx                  # Fixed header navigation & mobile drawer
 │       ├── HeroSection.tsx             # Hero banner with 3D elements, search & CTAs
+│       ├── CreatorProfileView.tsx      # Creator profile hero, bio, stat pills & course grid
 │       ├── CourseDetailsView.tsx       # Unified course details, lessons, and reviews component
 │       ├── SearchPageContent.tsx       # Search hero, filter bar, 18-course grid & pagination
 │       ├── PartnersSection.tsx         # Brand partners and sponsor badges

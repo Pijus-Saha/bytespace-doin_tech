@@ -21,6 +21,7 @@ export default function Navbar() {
   }, []);
 
   const isCoursesActive = pathname === "/search" || pathname === "/courses";
+  const isCreatorsActive = pathname.startsWith("/creators") || pathname.startsWith("/creator");
   const isHomeActive = pathname === "/";
 
   return (
@@ -63,8 +64,10 @@ export default function Navbar() {
             Courses
           </Link>
           <Link
-            href="/#creators"
-            className="text-white/80 hover:text-[#d4fb20] font-medium text-base transition-colors duration-200"
+            href="/creators"
+            className={`font-medium text-base transition-colors duration-200 ${
+              isCreatorsActive ? "text-white font-semibold" : "text-white/80 hover:text-[#d4fb20]"
+            }`}
           >
             Creators
           </Link>
@@ -134,9 +137,11 @@ export default function Navbar() {
               Courses
             </Link>
             <Link
-              href="/#creators"
+              href="/creators"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-white/80 hover:text-[#d4fb20] text-lg font-medium py-1"
+              className={`${
+                isCreatorsActive ? "text-white font-semibold" : "text-white/80"
+              } hover:text-[#d4fb20] text-lg font-medium py-1`}
             >
               Creators
             </Link>

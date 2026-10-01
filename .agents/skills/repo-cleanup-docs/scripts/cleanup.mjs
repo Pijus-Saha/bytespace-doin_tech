@@ -72,7 +72,18 @@ function getAssetFiles(dir) {
 
 const allAssetFiles = getAssetFiles(path.join(ROOT_DIR, 'public', 'assets'));
 
-// Known redundant or duplicate files to safely clean
+// Assets that must NEVER be deleted under any circumstances (core student cutouts, heroes, brand assets)
+const PROTECTED_PATTERNS = [
+  'student-female-cutout.png',
+  'student-male-cutout.png',
+  'student-male-tablet.png',
+  'creator-purepearl-profile.png',
+  'creator-purepearl.png',
+  'logo-bytespace-header.png',
+  'logo-mark-bytespace.svg',
+];
+
+// Known redundant or duplicate files to safely clean when verified UNREFERENCED in source
 const KNOWN_UNUSED_PATTERNS = [
   '3d-white-torus-duplicate.png',
   'hero-center-illustration-transparent.png',
@@ -81,8 +92,6 @@ const KNOWN_UNUSED_PATTERNS = [
   'hero-student-female-composite.png',
   'hero-student-male-composite.png',
   'student-female-tablet.png',
-  'student-female-cutout.png',
-  'student-male-cutout.png',
   'student-male-full.png',
   'avatar-stack-users-2.png',
   'badge-level-beginner.png',
@@ -102,20 +111,25 @@ for (const assetPath of allAssetFiles) {
   const baseName = path.basename(assetPath);
   const relPath = path.relative(path.join(ROOT_DIR, 'public'), assetPath).replace(/\\/g, '/');
 
-  const isExplicitlyKnown = KNOWN_UNUSED_PATTERNS.includes(baseName);
+  const isProtected = PROTECTED_PATTERNS.includes(baseName);
   const isReferencedInSrc =
     combinedSourceContent.includes(baseName) || combinedSourceContent.includes(relPath);
 
-  if (isExplicitlyKnown || !isReferencedInSrc) {
-    const stat = fs.statSync(assetPath);
-    candidateFiles.push({
-      path: assetPath,
-      relPath: path.relative(ROOT_DIR, assetPath),
-      size: stat.size,
-      reason: isExplicitlyKnown ? 'Known superseded / duplicate asset' : 'Unreferenced in source code',
-    });
-    totalBytesSaved += stat.size;
+  // CRITICAL SAFETY RULE: Never delete any asset that is actively referenced in source code or protected
+  if (isReferencedInSrc || isProtected) {
+    continue;
   }
+
+  // Only truly unreferenced files reach this candidate list
+  const isExplicitlyKnown = KNOWN_UNUSED_PATTERNS.includes(baseName);
+  const stat = fs.statSync(assetPath);
+  candidateFiles.push({
+    path: assetPath,
+    relPath: path.relative(ROOT_DIR, assetPath),
+    size: stat.size,
+    reason: isExplicitlyKnown ? 'Known superseded / duplicate asset' : 'Unreferenced in source code',
+  });
+  totalBytesSaved += stat.size;
 }
 
 // Check for temporary build files

@@ -26,6 +26,8 @@ Guidelines and safety rules for identifying what files can be safely deleted ver
 | **Active 3D Decorations** | `3d-lime-zigzag.png`, `3d-white-torus.png`, `bg-arch-lime.png`, etc. | Core 3D visual anchors across Hero and CTA banners. |
 | **Brand Assets** | `logo-bytespace-header.png`, `logo-mark-bytespace.svg`, social icons | Header, footer, layout metadata, and favicon. |
 | **Partner Logos** | `partner-logoipsum-1.png` to `partner-logoipsum-5.png` | Rendered in `PartnersSection`. |
+| **Active Student Cutouts & Models** | `student-female-cutout.png`, `student-male-cutout.png`, `student-male-tablet.png` | Rendered in `FeaturesSection` and `HeroSection` on Home Page. |
+| **Creator Profile & Reviewer Avatars** | `creator-purepearl-profile.png`, `creator-purepearl.png`, `reviewer-*.png` | Rendered in `CreatorProfileView` and `CourseDetailsView`. |
 | **Testimonial Avatars** | `avatar-male-senior.png`, `avatar-female-yellow-bg.png`, `avatar-male-glasses.png` | Rendered in `TestimonialsSection`. |
 | **Core Source Code** | `src/**/*`, `package.json`, configuration files | Essential application logic and routes. |
 
@@ -34,7 +36,9 @@ Guidelines and safety rules for identifying what files can be safely deleted ver
 ## 🛡️ Pre-Deletion Validation Protocol
 
 1. Perform a text search across `src/` and `public/` for the filename (basename and relative path).
-2. If 0 occurrences found and file is not a design spec or config, flag for removal.
-3. Remove flagged files.
-4. Execute `npm run lint` and `npm run build`.
-5. If build succeeds without errors, proceed to document changes.
+2. **Strict In-Use Invariant**: If a file is referenced anywhere in `src/` or configuration files, it is strictly PROTECTED and must NEVER be deleted.
+3. If 0 occurrences found and file is not a design spec, brand asset, or protected cutout model, flag for removal.
+4. Execute `npm run cleanup:dry` first to verify candidate files.
+5. Execute `npm run cleanup` (with `--fix`) only after manual review.
+6. Execute `npm run lint` and `npm run build`.
+7. If build succeeds without errors, proceed to document changes in `README.md`.

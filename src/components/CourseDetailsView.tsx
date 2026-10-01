@@ -192,7 +192,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
               <p className="text-white/85 text-sm sm:text-base font-normal">
                 by{" "}
                 <Link
-                  href="/#creators"
+                  href="/creators"
                   className="text-[#d4fb20] font-semibold hover:underline transition-colors"
                 >
                   purepearl studio
@@ -736,7 +736,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
 
                   <div className="mt-4">
                     <Link
-                      href="/#creators"
+                      href="/creators"
                       className="inline-block border border-neutral-300 hover:border-neutral-400 bg-white hover:bg-neutral-50 text-neutral-800 font-medium text-xs sm:text-sm px-5 py-2 rounded-full transition-colors"
                     >
                       See Full Profile
