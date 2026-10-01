@@ -228,7 +228,7 @@ export default function FeaturedCoursesSection() {
 
                 {/* Author */}
                 <p className="text-[#71717a] text-xs sm:text-sm mt-1">
-                  by <Link href="/error-404" className="text-[#0043ff] font-medium hover:underline cursor-pointer">{course.author}</Link>
+                  by <Link href="/creators" className="text-[#0043ff] font-medium hover:underline cursor-pointer">{course.author}</Link>
                 </p>
 
                 {/* Level Badge and Avatars Stack */}

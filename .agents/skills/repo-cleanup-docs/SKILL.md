@@ -38,7 +38,7 @@ graph TD
    ```
 2. **Review Candidate Files**:
    - **Safe to remove**: Duplicate assets, unreferenced temporary mockups, rasterized legacy widget graphics replaced by pure CSS/Tailwind, abandoned test files, leftover OS files (`.DS_Store`, `Thumbs.db`).
-   - **Must preserve**: Active components, pages, dynamic routes, brand logos referenced by metadata or manifests, files in `public/assets/designs/` used as assessment specs.
+   - **Must preserve**: Active components, pages, dynamic routes, brand logos referenced by metadata or manifests, active student cutouts and models (`student-female-cutout.png`, `student-male-cutout.png`, `student-male-tablet.png`), creator profile avatars, files in `public/assets/designs/` used as assessment specs.
 
 ---
 
