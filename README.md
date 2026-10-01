@@ -53,6 +53,24 @@ Both bonus pages were implemented at **true 1:1 design scale** matching Figma mo
 - **Comprehensive 404 Linking**: Every unavailable page and placeholder route across the platform (shopping cart icon, footer category directories, legal/policy pages, company links, and extra catalog items) is linked directly to `/error-404`.
 - Visiting `/cart` automatically redirects (`307`) to `/error-404`.
 
+### 4. Search & Courses Catalog Page (`/search`, `/courses`) — [Completed ✅]
+- **Figma specification**: [`mock-search-page.png`](public/assets/designs/mock-search-page.png).
+- **Hero & Search Header**: Full-bleed electric blue banner with 120px modular grid, *"Find Your Next Course"* header, integrated search input with live debounced filtering, and lime *"Courses ⌵"* dropdown selector.
+- **Interactive Controls & Filter Bar**:
+  - Funnel filter button with popover controls (skill level, price range, reset/apply).
+  - Skill level selector dropdown (All Levels, Beginner, Intermediate, Advanced).
+  - Category selector dropdown (All Categories, Design, Development, Business, Marketing, etc.).
+  - Left-aligned 3-line sort dropdown (Most relevant, Highest rated, Price low-to-high, Price high-to-low, Newest).
+- **Category Tag Pills**:
+  - 9 exact category tags (*Featured*, *Music*, *Drawing & Painting*, *Marketing*, *Animation*, *Social Media*, *UI/UX Design*, *Creative Marketing*, *Cooking*).
+  - Active lime pill styling with instant category filtering.
+- **18-Course Card Grid (6 rows × 3 columns)**:
+  - Exact design match with frosted glass overlay badges (*17 Lessons*, *2 hours 16 mins*, *59 Comments*).
+  - Title, star rating, verified creator attribution (*by purepearl studio*).
+  - Skill level indicator with icon and user avatar cluster (*26+*).
+  - Clean lifetime pricing display (*$25 /lifetime*).
+- **Pagination**: Numbered pagination (1-5) with circular navigation buttons and smooth top scrolling.
+
 ---
 
 ## 🌿 Git Branching Workflow
@@ -105,6 +123,10 @@ bytespace-doin_tech/
 │   │   │   └── page.tsx      # Route alias to 404 handler
 │   │   ├── cart/
 │   │   │   └── page.tsx      # Redirect handler to /error-404
+│   │   ├── courses/
+│   │   │   └── page.tsx      # Courses catalog route matching search design
+│   │   ├── search/
+│   │   │   └── page.tsx      # Interactive search & filter page matching Figma
 │   │   ├── login/
 │   │   │   └── page.tsx      # Login page with social login & course cluster
 │   │   └── register/
@@ -112,6 +134,7 @@ bytespace-doin_tech/
 │   └── components/
 │       ├── Navbar.tsx                  # Fixed header navigation & mobile drawer
 │       ├── HeroSection.tsx             # Hero banner with 3D elements, search & CTAs
+│       ├── SearchPageContent.tsx       # Search hero, filter bar, 18-course grid & pagination
 │       ├── PartnersSection.tsx         # Brand partners and sponsor badges
 │       ├── FeaturedCoursesSection.tsx  # Course catalog with difficulty & rating badges
 │       ├── LearningPathsSection.tsx    # Guided curriculum tracks

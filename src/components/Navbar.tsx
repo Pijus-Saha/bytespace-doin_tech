@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ShoppingBag, Menu, X } from "lucide-react";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -17,6 +19,9 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const isCoursesActive = pathname === "/search" || pathname === "/courses";
+  const isHomeActive = pathname === "/";
 
   return (
     <header
@@ -43,13 +48,17 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8 lg:gap-10">
           <Link
             href="/"
-            className="text-white/95 hover:text-[#d4fb20] font-medium text-base transition-colors duration-200"
+            className={`font-medium text-base transition-colors duration-200 ${
+              isHomeActive ? "text-white" : "text-white/80 hover:text-[#d4fb20]"
+            }`}
           >
             Home
           </Link>
           <Link
-            href="/#courses"
-            className="text-white/80 hover:text-[#d4fb20] font-medium text-base transition-colors duration-200"
+            href="/search"
+            className={`font-medium text-base transition-colors duration-200 ${
+              isCoursesActive ? "text-white" : "text-white/80 hover:text-[#d4fb20]"
+            }`}
           >
             Courses
           </Link>
@@ -116,9 +125,11 @@ export default function Navbar() {
               Home
             </Link>
             <Link
-              href="/#courses"
+              href="/search"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-white/80 hover:text-[#d4fb20] text-lg font-medium py-1"
+              className={`${
+                isCoursesActive ? "text-white" : "text-white/80"
+              } hover:text-[#d4fb20] text-lg font-medium py-1`}
             >
               Courses
             </Link>
