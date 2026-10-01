@@ -53,6 +53,37 @@ Both bonus pages were implemented at **true 1:1 design scale** matching Figma mo
 - **Comprehensive 404 Linking**: Every unavailable page and placeholder route across the platform (shopping cart icon, footer category directories, legal/policy pages, company links, and extra catalog items) is linked directly to `/error-404`.
 - Visiting `/cart` automatically redirects (`307`) to `/error-404`.
 
+### 4. Search & Courses Catalog Page (`/search`, `/courses`) — [Completed ✅]
+- **Figma specification**: [`mock-search-page.png`](public/assets/designs/mock-search-page.png).
+- **Hero & Search Header**: Full-bleed electric blue banner with 120px modular grid, *"Find Your Next Course"* header, integrated search input with live debounced filtering, and lime *"Courses ⌵"* dropdown selector.
+- **Interactive Controls & Filter Bar**:
+  - Funnel filter button with popover controls (skill level, price range, reset/apply).
+  - Skill level selector dropdown (All Levels, Beginner, Intermediate, Advanced).
+  - Category selector dropdown (All Categories, Design, Development, Business, Marketing, etc.).
+  - Left-aligned 3-line sort dropdown (Most relevant, Highest rated, Price low-to-high, Price high-to-low, Newest).
+- **Category Tag Pills**:
+  - 9 exact category tags (*Featured*, *Music*, *Drawing & Painting*, *Marketing*, *Animation*, *Social Media*, *UI/UX Design*, *Creative Marketing*, *Cooking*).
+  - Active lime pill styling with instant category filtering.
+- **18-Course Card Grid (6 rows × 3 columns)**:
+  - Exact design match with frosted glass overlay badges (*17 Lessons*, *2 hours 16 mins*, *59 Comments*).
+  - Title, star rating, verified creator attribution (*by purepearl studio*).
+  - Skill level indicator with icon and user avatar cluster (*26+*).
+  - Clean lifetime pricing display (*$25 /lifetime*).
+- **Pagination & 404 Routing**:
+  - Active page 1 with smooth scroll-to-top.
+  - Numbered pages 2–5 and next arrow (`>`) link directly to `/error-404`.
+  - Direct URL access to `/search?page=2-5` renders the custom 404 page directly.
+
+### 5. Repository Cleanup & Agent Skill — [Completed ✅]
+- **Agent Skill**: [`.agents/skills/repo-cleanup-docs/SKILL.md`](.agents/skills/repo-cleanup-docs/SKILL.md).
+- **Automated CLI Runner**: [`.agents/skills/repo-cleanup-docs/scripts/cleanup.mjs`](.agents/skills/repo-cleanup-docs/scripts/cleanup.mjs) (`--dry-run` and `--fix`).
+- **Safety Protocol**: [`.agents/skills/repo-cleanup-docs/references/cleanup-checklist.md`](.agents/skills/repo-cleanup-docs/references/cleanup-checklist.md).
+- **Audit & Cleanup Results**:
+  - Automatically audited public assets against source code references.
+  - Safely eliminated **26 unused, redundant, and duplicate assets** (superseded prototype illustrations, unreferenced raster widgets replaced by pure Tailwind, temporary crops, duplicate shapes, and build caches).
+  - Reclaimed **15.51 MB** of dead weight from the repository.
+  - Zero broken imports: verified with `npm run lint` (0 errors) and `npm run build` (all routes statically compiled).
+
 ---
 
 ## 🌿 Git Branching Workflow
@@ -64,6 +95,7 @@ As instructed in the assessment guidelines, all development followed a clean, pr
 - `feature/signup-login-pages`: Authentication suite (Register, Login, 3D Course Cluster).
 - `feature/error-page`: 404 Not Found error page implementation.
 - `feature/minor-ui-fix`: Design fidelity adjustments, responsive scale fixes, and comprehensive 404 link routing.
+- `feature/search-page`: Search & Course catalog page, error-404 pagination routing, and repository cleanup skill.
 
 All commits are atomic and descriptive, and ready for Pull Request (PR) review.
 
@@ -85,6 +117,14 @@ All commits are atomic and descriptive, and ready for Pull Request (PR) review.
 
 ```text
 bytespace-doin_tech/
+├── .agents/
+│   └── skills/
+│       └── repo-cleanup-docs/
+│           ├── SKILL.md                # Agent skill workflow & cleanup runbook
+│           ├── scripts/
+│           │   └── cleanup.mjs         # Automated cleanup & audit CLI runner
+│           └── references/
+│               └── cleanup-checklist.md # Safe deletion checklist & protection rules
 ├── public/
 │   └── assets/
 │       ├── avatars/          # User avatar stacks and student testimonials
@@ -105,6 +145,10 @@ bytespace-doin_tech/
 │   │   │   └── page.tsx      # Route alias to 404 handler
 │   │   ├── cart/
 │   │   │   └── page.tsx      # Redirect handler to /error-404
+│   │   ├── courses/
+│   │   │   └── page.tsx      # Courses catalog route matching search design
+│   │   ├── search/
+│   │   │   └── page.tsx      # Interactive search & filter page matching Figma
 │   │   ├── login/
 │   │   │   └── page.tsx      # Login page with social login & course cluster
 │   │   └── register/
@@ -112,6 +156,7 @@ bytespace-doin_tech/
 │   └── components/
 │       ├── Navbar.tsx                  # Fixed header navigation & mobile drawer
 │       ├── HeroSection.tsx             # Hero banner with 3D elements, search & CTAs
+│       ├── SearchPageContent.tsx       # Search hero, filter bar, 18-course grid & pagination
 │       ├── PartnersSection.tsx         # Brand partners and sponsor badges
 │       ├── FeaturedCoursesSection.tsx  # Course catalog with difficulty & rating badges
 │       ├── LearningPathsSection.tsx    # Guided curriculum tracks
@@ -166,6 +211,8 @@ bytespace-doin_tech/
 | `npm run build` | Compiles the production bundle with TypeScript type-checking |
 | `npm run start` | Runs the compiled production build locally |
 | `npm run lint` | Runs ESLint to check for code quality and syntax issues |
+| `npm run cleanup` | Safely removes unused files and cleans build cache via `repo-cleanup-docs` skill |
+| `npm run cleanup:dry` | Audits the repository and reports unreferenced files without deleting |
 
 ---
 

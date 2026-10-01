@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cleanup": "node .agents/skills/repo-cleanup-docs/scripts/cleanup.mjs --fix",
+    "cleanup:dry": "node .agents/skills/repo-cleanup-docs/scripts/cleanup.mjs --dry-run"
   },
   "dependencies": {
     "lucide-react": "^1.48.0",
