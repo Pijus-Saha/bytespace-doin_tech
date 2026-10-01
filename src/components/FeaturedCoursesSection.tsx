@@ -188,7 +188,7 @@ export default function FeaturedCoursesSection() {
               className="group bg-white rounded-[24px] sm:rounded-[28px] p-3 sm:p-3.5 border border-[#e5e7eb] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_32px_rgba(0,67,255,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
             >
               {/* Thumbnail Container */}
-              <Link href="/error-404" className="block relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100">
+              <Link href="/courses/build-digital-asset" className="block relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100">
                 <Image
                   src={course.image}
                   alt={course.title}
@@ -216,7 +216,7 @@ export default function FeaturedCoursesSection() {
                 {/* Title & Rating */}
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-heading font-bold text-[18px] text-[#111827] leading-snug group-hover:text-[#0043ff] transition-colors truncate">
-                    <Link href="/error-404">
+                    <Link href="/courses/build-digital-asset">
                       {course.title}
                     </Link>
                   </h3>
