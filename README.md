@@ -69,7 +69,20 @@ Both bonus pages were implemented at **true 1:1 design scale** matching Figma mo
   - Title, star rating, verified creator attribution (*by purepearl studio*).
   - Skill level indicator with icon and user avatar cluster (*26+*).
   - Clean lifetime pricing display (*$25 /lifetime*).
-- **Pagination**: Numbered pagination (1-5) with circular navigation buttons and smooth top scrolling.
+- **Pagination & 404 Routing**:
+  - Active page 1 with smooth scroll-to-top.
+  - Numbered pages 2–5 and next arrow (`>`) link directly to `/error-404`.
+  - Direct URL access to `/search?page=2-5` renders the custom 404 page directly.
+
+### 5. Repository Cleanup & Agent Skill — [Completed ✅]
+- **Agent Skill**: [`.agents/skills/repo-cleanup-docs/SKILL.md`](.agents/skills/repo-cleanup-docs/SKILL.md).
+- **Automated CLI Runner**: [`.agents/skills/repo-cleanup-docs/scripts/cleanup.mjs`](.agents/skills/repo-cleanup-docs/scripts/cleanup.mjs) (`--dry-run` and `--fix`).
+- **Safety Protocol**: [`.agents/skills/repo-cleanup-docs/references/cleanup-checklist.md`](.agents/skills/repo-cleanup-docs/references/cleanup-checklist.md).
+- **Audit & Cleanup Results**:
+  - Automatically audited public assets against source code references.
+  - Safely eliminated **26 unused, redundant, and duplicate assets** (superseded prototype illustrations, unreferenced raster widgets replaced by pure Tailwind, temporary crops, duplicate shapes, and build caches).
+  - Reclaimed **15.51 MB** of dead weight from the repository.
+  - Zero broken imports: verified with `npm run lint` (0 errors) and `npm run build` (all routes statically compiled).
 
 ---
 
@@ -82,6 +95,7 @@ As instructed in the assessment guidelines, all development followed a clean, pr
 - `feature/signup-login-pages`: Authentication suite (Register, Login, 3D Course Cluster).
 - `feature/error-page`: 404 Not Found error page implementation.
 - `feature/minor-ui-fix`: Design fidelity adjustments, responsive scale fixes, and comprehensive 404 link routing.
+- `feature/search-page`: Search & Course catalog page, error-404 pagination routing, and repository cleanup skill.
 
 All commits are atomic and descriptive, and ready for Pull Request (PR) review.
 
@@ -103,6 +117,14 @@ All commits are atomic and descriptive, and ready for Pull Request (PR) review.
 
 ```text
 bytespace-doin_tech/
+├── .agents/
+│   └── skills/
+│       └── repo-cleanup-docs/
+│           ├── SKILL.md                # Agent skill workflow & cleanup runbook
+│           ├── scripts/
+│           │   └── cleanup.mjs         # Automated cleanup & audit CLI runner
+│           └── references/
+│               └── cleanup-checklist.md # Safe deletion checklist & protection rules
 ├── public/
 │   └── assets/
 │       ├── avatars/          # User avatar stacks and student testimonials
@@ -189,6 +211,8 @@ bytespace-doin_tech/
 | `npm run build` | Compiles the production bundle with TypeScript type-checking |
 | `npm run start` | Runs the compiled production build locally |
 | `npm run lint` | Runs ESLint to check for code quality and syntax issues |
+| `npm run cleanup` | Safely removes unused files and cleans build cache via `repo-cleanup-docs` skill |
+| `npm run cleanup:dry` | Audits the repository and reports unreferenced files without deleting |
 
 ---
 
