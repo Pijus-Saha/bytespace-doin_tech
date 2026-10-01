@@ -573,7 +573,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                           {/* Top Reviewer Info */}
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-3">
-                              <div className="relative w-11 h-11 rounded-full overflow-hidden bg-neutral-100 border border-neutral-200 shrink-0">
+                              <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0">
                                 <Image
                                   src={rev.avatar}
                                   alt={rev.name}
@@ -714,7 +714,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                 {/* Creator Profile Section */}
                 <div className="mt-6 pt-6 border-t border-neutral-200/80">
                   <div className="flex items-center gap-3">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-neutral-100 shrink-0 border border-neutral-200">
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0">
                       <Image
                         src="/assets/course-details/creator-purepearl.png"
                         alt="PurePearl Studio"
