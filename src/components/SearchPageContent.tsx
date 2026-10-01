@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NotFound from "@/app/not-found";
 
 // Tag categories matching Figma exact list
 const CATEGORY_TAGS = [
@@ -287,7 +288,6 @@ export default function SearchPageContent() {
   }, [searchQuery, activeTag, selectedLevel, selectedCategory, selectedSort]);
 
   // Paginated slice
-  const totalPages = Math.max(1, Math.ceil(filteredCourses.length / itemsPerPage));
   const currentCourses = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
     return filteredCourses.slice(start, start + itemsPerPage);
@@ -321,6 +321,12 @@ export default function SearchPageContent() {
     selectedLevel !== "All Levels" ||
     selectedCategory !== "All Categories" ||
     selectedSort !== "Most relevant";
+
+  // If page query parameter is 2, 3, 4, 5 (or >= 2), render 404 page
+  const pageParam = searchParams.get("page");
+  if (pageParam && parseInt(pageParam, 10) >= 2) {
+    return <NotFound />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -818,65 +824,48 @@ export default function SearchPageContent() {
             </div>
           )}
 
-          {/* 5. Pagination Bar (Exact design from Figma mock) */}
+          {/* 5. Pagination Bar (Pages 2-5 and Next arrow link to /error-404) */}
           <div className="flex items-center justify-center gap-2 sm:gap-3 pt-12 sm:pt-16 pb-4">
-            {/* Previous Arrow Button */}
+            {/* Previous Arrow Button (disabled on page 1) */}
             <button
               type="button"
-              disabled={currentPage === 1}
-              onClick={() => {
-                setCurrentPage((prev) => Math.max(1, prev - 1));
-                window.scrollTo({ top: 400, behavior: "smooth" });
-              }}
+              disabled
               aria-label="Previous Page"
-              className={`w-11 h-11 rounded-full border border-neutral-300 flex items-center justify-center transition-all ${
-                currentPage === 1
-                  ? "opacity-60 cursor-not-allowed text-neutral-400"
-                  : "hover:border-neutral-400 hover:bg-neutral-50 text-neutral-800 cursor-pointer active:scale-95"
-              }`}
+              className="w-11 h-11 rounded-full border border-neutral-300 flex items-center justify-center transition-all opacity-60 cursor-not-allowed text-neutral-400"
             >
               <ChevronLeft className="w-5 h-5 stroke-[2]" />
             </button>
 
-            {/* Page Numbers 1, 2, 3, 4, 5 */}
-            {[1, 2, 3, 4, 5].map((pageNum) => {
-              const isActive = currentPage === pageNum;
-              return (
-                <button
-                  key={pageNum}
-                  type="button"
-                  onClick={() => {
-                    setCurrentPage(pageNum);
-                    window.scrollTo({ top: 400, behavior: "smooth" });
-                  }}
-                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-base transition-colors cursor-pointer select-none ${
-                    isActive
-                      ? "text-neutral-300 font-bold"
-                      : "text-neutral-900 hover:text-[#0043ff]"
-                  }`}
-                >
-                  {pageNum}
-                </button>
-              );
-            })}
-
-            {/* Next Arrow Button */}
+            {/* Page 1 (Current active page) */}
             <button
               type="button"
-              disabled={currentPage === totalPages}
               onClick={() => {
-                setCurrentPage((prev) => Math.min(totalPages, prev + 1));
                 window.scrollTo({ top: 400, behavior: "smooth" });
               }}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-base text-neutral-300 cursor-pointer select-none"
+            >
+              1
+            </button>
+
+            {/* Pages 2, 3, 4, 5 link to /error-404 */}
+            {[2, 3, 4, 5].map((pageNum) => (
+              <Link
+                key={pageNum}
+                href="/error-404"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-base text-neutral-900 hover:text-[#0043ff] transition-colors cursor-pointer select-none"
+              >
+                {pageNum}
+              </Link>
+            ))}
+
+            {/* Next Arrow Button links to /error-404 */}
+            <Link
+              href="/error-404"
               aria-label="Next Page"
-              className={`w-11 h-11 rounded-full border border-neutral-300 flex items-center justify-center transition-all ${
-                currentPage === totalPages
-                  ? "opacity-60 cursor-not-allowed text-neutral-400"
-                  : "hover:border-neutral-400 hover:bg-neutral-50 text-neutral-800 cursor-pointer active:scale-95"
-              }`}
+              className="w-11 h-11 rounded-full border border-neutral-300 flex items-center justify-center transition-all hover:border-neutral-400 hover:bg-neutral-50 text-neutral-800 cursor-pointer active:scale-95"
             >
               <ChevronRight className="w-5 h-5 stroke-[2]" />
-            </button>
+            </Link>
           </div>
         </div>
       </section>
