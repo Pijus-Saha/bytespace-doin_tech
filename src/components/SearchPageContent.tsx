@@ -739,7 +739,7 @@ export default function SearchPageContent() {
                 >
                   {/* Thumbnail Container */}
                   <Link
-                    href="/error-404"
+                    href="/courses/build-digital-asset"
                     className="block relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100"
                   >
                     <Image
@@ -769,7 +769,7 @@ export default function SearchPageContent() {
                     {/* Title & Rating */}
                     <div className="flex items-center justify-between gap-2">
                       <h3 className="font-heading font-bold text-[18px] text-[#111827] leading-snug group-hover:text-[#0043ff] transition-colors truncate">
-                        <Link href="/error-404">{course.title}</Link>
+                        <Link href="/courses/build-digital-asset">{course.title}</Link>
                       </h3>
                       <div className="flex items-center gap-1 shrink-0">
                         <span className="text-[#71717a] text-[15px] font-medium">
