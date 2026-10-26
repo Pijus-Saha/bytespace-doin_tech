@@ -7,6 +7,11 @@ export const metadata: Metadata = {
     "Explore modules and lessons for Build Digital Asset on ByteSpace.",
 };
 
-export default function CourseDynamicLessonsPage() {
-  return <CourseDetailsView initialTab="lessons" />;
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function CourseDynamicLessonsPage({ params }: PageProps) {
+  const { id } = await params;
+  return <CourseDetailsView initialTab="lessons" courseId={id} />;
 }

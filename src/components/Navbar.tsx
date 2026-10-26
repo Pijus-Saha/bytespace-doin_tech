@@ -27,8 +27,8 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-[#003be2]/95 backdrop-blur-md shadow-lg border-b border-white/10 py-3.5 sm:py-4"
+        isScrolled || mobileMenuOpen
+          ? "bg-[#003be2] sm:bg-[#003be2]/95 backdrop-blur-md shadow-lg border-b border-white/10 py-3.5 sm:py-4"
           : "bg-transparent py-6 sm:py-8"
       }`}
     >
@@ -88,7 +88,7 @@ export default function Navbar() {
             Join Us
           </Link>
           <Link
-            href="/error-404"
+            href="/cart"
             aria-label="Shopping Cart"
             className="relative p-2 text-white hover:text-[#d4fb20] transition-colors duration-200 rounded-full hover:bg-white/10"
           >
@@ -99,7 +99,7 @@ export default function Navbar() {
         {/* Mobile menu trigger */}
         <div className="flex md:hidden items-center gap-4">
           <Link
-            href="/error-404"
+            href="/cart"
             aria-label="Shopping Cart"
             className="relative p-1.5 text-white hover:text-[#d4fb20]"
           >

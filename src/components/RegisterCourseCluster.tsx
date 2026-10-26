@@ -5,7 +5,7 @@ import { Star, BarChart2 } from "lucide-react";
 
 export default function RegisterCourseCluster() {
   return (
-    <div className="relative w-[552px] h-[586px] select-none scale-[0.82] sm:scale-[0.92] lg:scale-100 origin-top-left">
+    <div className="relative w-[552px] h-[586px] select-none scale-[0.58] min-[400px]:scale-[0.7] sm:scale-[0.92] lg:scale-100 origin-top-left">
       
       {/* ================= 1. BACK CARD (Course 2: Build Digital Asset) ================= */}
       {/* Exact card structure and styling from FeaturedCoursesSection.tsx */}

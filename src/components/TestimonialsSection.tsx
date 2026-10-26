@@ -59,6 +59,7 @@ export default function TestimonialsSection() {
                   src={t.avatar}
                   alt={t.name}
                   fill
+                  unoptimized
                   className="object-cover"
                 />
               </div>

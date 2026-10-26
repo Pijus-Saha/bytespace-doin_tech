@@ -137,7 +137,7 @@ export default function FeaturedCoursesSection() {
   const filteredCourses =
     activeCategory === "Featured"
       ? COURSES
-      : COURSES.filter((c) => c.category === activeCategory || true);
+      : COURSES.filter((c) => c.category.toLowerCase() === activeCategory.toLowerCase());
 
   return (
     <section id="courses" className="w-full bg-white pt-14 pb-14 sm:pt-16 sm:pb-16 lg:pt-[76px] lg:pb-[76px] relative">
@@ -153,8 +153,8 @@ export default function FeaturedCoursesSection() {
           </p>
         </div>
 
-        {/* Filter Pills matching 2-row layout in Figma */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 max-w-[1120px] mx-auto mb-10 sm:mb-12">
+        {/* Filter Pills */}
+        <div className="flex items-center sm:justify-center gap-2 sm:gap-2.5 max-w-[1120px] mx-auto mb-8 sm:mb-12 overflow-x-auto no-scrollbar sm:flex-wrap px-1 sm:px-0 py-1">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             return (
@@ -162,7 +162,7 @@ export default function FeaturedCoursesSection() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer ${
+                className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                   isActive
                     ? "bg-[#d4fb20] text-neutral-900 shadow-sm font-semibold"
                     : "bg-[#f4f4f5] hover:bg-[#e4e4e7] text-neutral-700 border border-transparent"
@@ -173,63 +173,92 @@ export default function FeaturedCoursesSection() {
             );
           })}
           <Link
-            href="/error-404"
-            className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-[#f4f4f5] hover:bg-[#e4e4e7] text-neutral-700 transition-all flex items-center gap-1 cursor-pointer"
+            href="/search"
+            className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-[#f4f4f5] hover:bg-[#e4e4e7] text-neutral-700 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap shrink-0"
           >
             <span className="text-[#0043ff] font-semibold">+</span> More
           </Link>
         </div>
 
         {/* Courses Grid (3 columns x 2 rows) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7 max-w-[1160px] mx-auto">
-          {filteredCourses.map((course) => (
-            <div
-              key={course.id}
-              className="group bg-white rounded-[24px] sm:rounded-[28px] p-3 sm:p-3.5 border border-[#e5e7eb] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_32px_rgba(0,67,255,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
-            >
-              {/* Thumbnail Container */}
-              <Link href="/courses/build-digital-asset" className="block relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100">
-                <Image
-                  src={course.image}
-                  alt={course.title}
-                  fill
-                  unoptimized
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-
-                {/* Actual Content Boxes: Lessons, Duration, Comments */}
-                <div className="absolute bottom-3 left-2.5 right-2.5 sm:left-3 sm:right-3 flex items-center justify-between gap-1 sm:gap-1.5 z-10 select-none">
-                  <span className="px-2.5 py-1 rounded-full bg-white/70 backdrop-blur-md text-[#242528] text-[11px] font-medium border border-white/40 shadow-xs whitespace-nowrap text-center">
-                    {course.lessons}
-                  </span>
-                  <span className="px-2.5 py-1 rounded-full bg-white/70 backdrop-blur-md text-[#242528] text-[11px] font-medium border border-white/40 shadow-xs whitespace-nowrap text-center">
-                    {course.duration}
-                  </span>
-                  <span className="px-2.5 py-1 rounded-full bg-white/70 backdrop-blur-md text-[#242528] text-[11px] font-medium border border-white/40 shadow-xs whitespace-nowrap text-center">
-                    {course.comments}
-                  </span>
-                </div>
+        {filteredCourses.length === 0 ? (
+          <div className="text-center py-16 px-4 bg-neutral-50 rounded-3xl max-w-[800px] mx-auto">
+            <p className="text-neutral-600 text-base font-medium">
+              No featured courses found under &ldquo;{activeCategory}&rdquo; right now.
+            </p>
+            <div className="mt-4 flex items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => setActiveCategory("Featured")}
+                className="px-5 py-2 rounded-full bg-[#0043ff] hover:bg-[#003be2] text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer"
+              >
+                Show All Featured
+              </button>
+              <Link
+                href={`/search?category=${encodeURIComponent(activeCategory)}`}
+                className="px-5 py-2 rounded-full bg-[#d4fb20] hover:bg-[#cbfc01] text-black text-xs sm:text-sm font-semibold transition-colors"
+              >
+                Search in Catalog
               </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7 max-w-[1160px] mx-auto">
+            {filteredCourses.map((course) => (
+              <div
+                key={course.id}
+                className="group bg-white rounded-[24px] sm:rounded-[28px] p-3 sm:p-3.5 border border-[#e5e7eb] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_32px_rgba(0,67,255,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+              >
+                {/* Thumbnail Container */}
+                <Link
+                  href={course.id === 2 ? "/courses/build-digital-asset" : `/courses/${course.id}`}
+                  className="block relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100"
+                >
+                  <Image
+                    src={course.image}
+                    alt={course.title}
+                    fill
+                    unoptimized
+                    priority={course.id <= 3}
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
 
-              {/* Course Info */}
-              <div className="pt-4 pb-2 px-1">
-                {/* Title & Rating */}
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="font-heading font-bold text-[18px] text-[#111827] leading-snug group-hover:text-[#0043ff] transition-colors truncate">
-                    <Link href="/courses/build-digital-asset">
-                      {course.title}
-                    </Link>
-                  </h3>
-                  <div className="flex items-center gap-1 shrink-0">
-                    <span className="text-[#71717a] text-[15px] font-medium">{course.rating}</span>
-                    <Star className="w-4 h-4 fill-[#b0b5be] text-[#b0b5be]" />
+                  {/* Actual Content Boxes: Lessons, Duration, Comments */}
+                  <div className="absolute bottom-3 left-2.5 right-2.5 sm:left-3 sm:right-3 flex items-center justify-between gap-1 sm:gap-1.5 z-10 select-none">
+                    <span className="px-2.5 py-1 rounded-full bg-white/70 backdrop-blur-md text-[#242528] text-[11px] font-medium border border-white/40 shadow-xs whitespace-nowrap text-center">
+                      {course.lessons}
+                    </span>
+                    <span className="px-2.5 py-1 rounded-full bg-white/70 backdrop-blur-md text-[#242528] text-[11px] font-medium border border-white/40 shadow-xs whitespace-nowrap text-center">
+                      {course.duration}
+                    </span>
+                    <span className="px-2.5 py-1 rounded-full bg-white/70 backdrop-blur-md text-[#242528] text-[11px] font-medium border border-white/40 shadow-xs whitespace-nowrap text-center">
+                      {course.comments}
+                    </span>
                   </div>
-                </div>
+                </Link>
 
-                {/* Author */}
-                <p className="text-[#71717a] text-xs sm:text-sm mt-1">
-                  by <Link href="/creators" className="text-[#0043ff] font-medium hover:underline cursor-pointer">{course.author}</Link>
-                </p>
+                {/* Course Info */}
+                <div className="pt-4 pb-2 px-1">
+                  {/* Title & Rating */}
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="font-heading font-bold text-[18px] text-[#111827] leading-snug group-hover:text-[#0043ff] transition-colors truncate">
+                      <Link href={course.id === 2 ? "/courses/build-digital-asset" : `/courses/${course.id}`}>
+                        {course.title}
+                      </Link>
+                    </h3>
+                    <div className="flex items-center gap-1 shrink-0">
+                      <span className="text-[#71717a] text-[15px] font-medium">{course.rating}</span>
+                      <Star className="w-4 h-4 fill-[#b0b5be] text-[#b0b5be]" />
+                    </div>
+                  </div>
+
+                  {/* Author */}
+                  <p className="text-[#71717a] text-xs sm:text-sm mt-1">
+                    by{" "}
+                    <Link href="/creators/purepearl-studio" className="text-[#0043ff] font-medium hover:underline cursor-pointer">
+                      {course.author}
+                    </Link>
+                  </p>
 
                 {/* Level Badge and Avatars Stack */}
                 <div className="flex items-center justify-between mt-5">
@@ -245,6 +274,8 @@ export default function FeaturedCoursesSection() {
                       src="/assets/avatars/avatar-stack-users.png"
                       alt="Enrolled students"
                       fill
+                      unoptimized
+                      priority={course.id <= 3}
                       className="object-contain"
                     />
                   </div>
@@ -261,6 +292,7 @@ export default function FeaturedCoursesSection() {
             </div>
           ))}
         </div>
+      )}
       </div>
     </section>
   );

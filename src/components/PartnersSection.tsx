@@ -12,18 +12,19 @@ export default function PartnersSection() {
   return (
     <section className="w-full bg-[#f5f5f6] py-16 lg:py-[80px]">
       <div className="max-w-[1160px] mx-auto px-6 sm:px-10 lg:px-8">
-        <div className="flex flex-wrap items-center justify-center sm:justify-between gap-8 md:gap-10">
+        <div className="flex items-center justify-between gap-4 sm:gap-8 overflow-x-auto no-scrollbar sm:overflow-visible py-1">
           {PARTNERS.map((partner) => (
             <div
               key={partner.id}
-              className="flex items-center justify-center transition-transform duration-300 hover:scale-105"
+              className="flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-105"
             >
               <Image
                 src={partner.src}
                 alt={partner.alt}
                 width={partner.width}
                 height={partner.height}
-                className="h-9 sm:h-10 lg:h-[42px] w-auto object-contain"
+                unoptimized
+                className="h-7 sm:h-9 lg:h-[42px] w-auto object-contain opacity-85 hover:opacity-100 transition-opacity"
               />
             </div>
           ))}

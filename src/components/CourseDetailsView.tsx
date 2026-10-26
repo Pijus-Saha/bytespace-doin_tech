@@ -25,6 +25,8 @@ export type TabType = "about" | "lessons" | "reviews";
 
 interface CourseDetailsViewProps {
   initialTab?: TabType;
+  courseId?: string;
+  courseTitle?: string;
 }
 
 const LESSON_MODULES = [
@@ -39,6 +41,12 @@ const LESSON_MODULES = [
     title: "Design Principles for Impact",
     description:
       "Master the principles that drive impactful designs with lessons such as 'Color Theory in Digital Design' and 'Typography Essentials.' Elevate your visual communication skills.",
+  },
+  {
+    moduleNumber: "Module 3",
+    title: "Advanced Techniques in Digital Creation",
+    description:
+      "Explore advanced vector drafting, scalable component design, and modular layout systems. Learn how to streamline your digital asset workflow from start to finish.",
   },
   {
     moduleNumber: "Module 4",
@@ -69,9 +77,9 @@ const LESSON_MODULES = [
 const REVIEWS_DATA = [
   {
     id: 1,
-    name: "PurePearl Studio",
-    role: "UI/UX Designer",
-    time: "a year ago",
+    name: "Eleanor Vance",
+    role: "Product Designer",
+    time: "2 months ago",
     avatar: "/assets/course-details/reviewer-1.png",
     rating: 5,
     comment:
@@ -81,17 +89,17 @@ const REVIEWS_DATA = [
     id: 2,
     name: "Albert Flores",
     role: "UI/UX Designer",
-    time: "a year ago",
+    time: "5 months ago",
     avatar: "/assets/course-details/reviewer-2.png",
-    rating: 5,
+    rating: 4,
     comment:
       "This course transformed my approach to digital design. The combination of theory, hands-on exercises, and real-world applications made it a truly enriching experience. Excited to implement what I've learned!",
   },
   {
     id: 3,
     name: "Cody Fisher",
-    role: "UI/UX Designer",
-    time: "a year ago",
+    role: "Visual Designer",
+    time: "8 months ago",
     avatar: "/assets/course-details/reviewer-3.png",
     rating: 5,
     comment:
@@ -100,12 +108,22 @@ const REVIEWS_DATA = [
   {
     id: 4,
     name: "Brooklyn Simmons",
-    role: "UI/UX Designer",
+    role: "Design Lead",
     time: "a year ago",
     avatar: "/assets/course-details/reviewer-4.png",
-    rating: 5,
+    rating: 4,
     comment:
       "The lessons on optimizing digital assets for various platforms were particularly insightful. The course adapts to the evolving digital landscape, and the engaging content kept me motivated throughout.",
+  },
+  {
+    id: 5,
+    name: "Devon Lane",
+    role: "Junior Designer",
+    time: "a year ago",
+    avatar: "/assets/avatars/avatar-male-senior.png",
+    rating: 3,
+    comment:
+      "Solid foundational content with practical step-by-step guidance. Would have appreciated extra time spent on interactive animation, but definitely a high-value course overall.",
   },
 ];
 
@@ -128,14 +146,18 @@ const KEY_POINTS = [
 ];
 
 const RATING_DISTRIBUTION = [
-  { stars: 5, percentage: 85, count: 720 },
-  { stars: 4, percentage: 20, count: 120 },
-  { stars: 3, percentage: 10, count: 21 },
-  { stars: 2, percentage: 5, count: 12 },
-  { stars: 1, percentage: 7, count: 16 },
+  { stars: 5, percentage: 80, count: 138 },
+  { stars: 4, percentage: 15, count: 26 },
+  { stars: 3, percentage: 3, count: 5 },
+  { stars: 2, percentage: 1, count: 2 },
+  { stars: 1, percentage: 1, count: 1 },
 ];
 
-export default function CourseDetailsView({ initialTab = "about" }: CourseDetailsViewProps) {
+export default function CourseDetailsView({
+  initialTab = "about",
+  courseId,
+  courseTitle = "Build Digital Asset: A Comprehensive Guide",
+}: CourseDetailsViewProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>(initialTab);
   const [selectedRatingFilter, setSelectedRatingFilter] = useState<number | "all">("all");
@@ -145,12 +167,16 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
 
   const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);
-    if (tab === "about") {
-      router.push("/courses/details", { scroll: false });
-    } else if (tab === "lessons") {
-      router.push("/courses/lessons", { scroll: false });
-    } else if (tab === "reviews") {
-      router.push("/courses/reviews", { scroll: false });
+    if (courseId && courseId !== "details" && courseId !== "build-digital-asset") {
+      router.push(`/courses/${courseId}?tab=${tab}`, { scroll: false });
+    } else {
+      if (tab === "about") {
+        router.push("/courses/details", { scroll: false });
+      } else if (tab === "lessons") {
+        router.push("/courses/lessons", { scroll: false });
+      } else if (tab === "reviews") {
+        router.push("/courses/reviews", { scroll: false });
+      }
     }
   };
 
@@ -167,6 +193,135 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
       ? REVIEWS_DATA
       : REVIEWS_DATA.filter((r) => r.rating === selectedRatingFilter);
 
+  const renderEnrollmentCard = () => (
+    <div className="bg-white rounded-[28px] sm:rounded-3xl p-6 sm:p-7 lg:p-8 shadow-xl border border-neutral-100/90 text-neutral-900">
+      {/* Header: Lessons count */}
+      <h2 className="font-heading font-bold text-lg sm:text-xl text-neutral-900 tracking-tight">
+        112 Lessons (24 hours)
+      </h2>
+
+      {/* Lesson Snippets */}
+      <div className="mt-4 space-y-3">
+        <div className="flex items-center justify-between text-xs sm:text-sm">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-neutral-800">01</span>
+            <span className="text-neutral-700 font-normal truncate max-w-[190px]">
+              Introduction to Digital Assets
+            </span>
+          </div>
+          <span className="text-[#0043ff] font-medium shrink-0">12 mins</span>
+        </div>
+
+        <div className="flex items-center justify-between text-xs sm:text-sm">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-neutral-800">02</span>
+            <span className="text-neutral-700 font-normal truncate max-w-[190px]">
+              Design Principles for Impacts
+            </span>
+          </div>
+          <span className="text-[#0043ff] font-medium shrink-0">21 mins</span>
+        </div>
+
+        <div className="flex items-center justify-between text-xs sm:text-sm">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-neutral-800">03</span>
+            <span className="text-neutral-700 font-normal truncate max-w-[190px]">
+              Advanced Techniques in Digital Creation
+            </span>
+          </div>
+          <span className="text-[#0043ff] font-medium shrink-0">16 mins</span>
+        </div>
+      </div>
+
+      <p className="text-xs text-neutral-400 font-medium mt-2">
+        99 more videos
+      </p>
+
+      {/* Callout message */}
+      <p className="text-neutral-600 text-xs sm:text-sm leading-relaxed mt-5">
+        Ready to Dive In? Enroll Now and Start Building Your Digital Future!
+      </p>
+
+      {/* Price */}
+      <div className="flex items-baseline gap-1.5 mt-4">
+        <span className="text-3xl sm:text-4xl font-extrabold text-[#0043ff] font-heading">
+          $25
+        </span>
+        <span className="text-neutral-500 text-xs sm:text-sm font-medium">
+          /lifetime
+        </span>
+      </div>
+
+      {/* Enroll Button */}
+      <button
+        type="button"
+        onClick={() => setEnrolled(true)}
+        className="w-full mt-4 bg-[#d4fb20] hover:bg-[#cbfc01] text-neutral-950 font-bold text-sm sm:text-base py-3.5 px-6 rounded-full transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md active:scale-[0.99] text-center"
+      >
+        {enrolled ? "Enrolled Successfully!" : "Enroll Now"}
+      </button>
+
+      {/* Features included */}
+      <div className="mt-7">
+        <h3 className="font-heading font-bold text-sm sm:text-base text-neutral-900 mb-3.5">
+          This course include
+        </h3>
+        <ul className="space-y-3 text-xs sm:text-sm text-neutral-700">
+          <li className="flex items-center gap-2.5">
+            <FileText className="w-4 h-4 text-[#0043ff]" />
+            <span>Learning Resources</span>
+          </li>
+          <li className="flex items-center gap-2.5">
+            <Video className="w-4 h-4 text-[#0043ff]" />
+            <span>Quality Lesson Videos</span>
+          </li>
+          <li className="flex items-center gap-2.5">
+            <Award className="w-4 h-4 text-[#0043ff]" />
+            <span>Certificate of Completion</span>
+          </li>
+          <li className="flex items-center gap-2.5">
+            <Headphones className="w-4 h-4 text-[#0043ff]" />
+            <span>Private Consultation</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Creator Profile Section */}
+      <div className="mt-6 pt-6 border-t border-neutral-200/80">
+        <div className="flex items-center gap-3">
+          <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0">
+            <Image
+              src="/assets/course-details/creator-purepearl.png"
+              alt="PurePearl Studio"
+              fill
+              unoptimized
+              className="object-cover"
+            />
+          </div>
+          <div>
+            <h4 className="font-heading font-bold text-sm sm:text-base text-neutral-900 leading-tight">
+              PurePearl Studio
+            </h4>
+            <p className="text-neutral-500 text-xs mt-0.5">Professional Creator</p>
+          </div>
+        </div>
+
+        <p className="text-neutral-500 text-xs sm:text-sm leading-relaxed mt-4">
+          Ready to Dive In? Enroll Now and Start Building Your Digital Future!
+        </p>
+
+        <div className="mt-4">
+          <Link
+            href="/creators/purepearl-studio"
+            className="inline-block border border-neutral-300 hover:border-neutral-400 bg-white hover:bg-neutral-50 text-neutral-800 font-medium text-xs sm:text-sm px-5 py-2 rounded-full transition-colors"
+          >
+            See Full Profile
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-white text-neutral-900 font-sans selection:bg-[#d4fb20] selection:text-black">
       {/* Top Navbar */}
@@ -175,24 +330,24 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
       {/* Main Page Content Wrapper with Blue Background Banner */}
       <div className="relative w-full">
         {/* Blue Grid Background for the Hero + Video Section */}
-        <div className="absolute top-0 left-0 right-0 h-[670px] sm:h-[720px] lg:h-[825px] bg-[#0043ff] bg-grid-pattern z-0" />
+        <div className="absolute top-0 left-0 right-0 h-[560px] sm:h-[680px] lg:h-[825px] bg-[#0043ff] bg-grid-pattern z-0" />
 
         {/* Foreground Content */}
-        <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 xl:px-[120px] pt-28 sm:pt-32 lg:pt-36 pb-20 sm:pb-28">
+        <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-12 lg:px-16 xl:px-[120px] pt-24 sm:pt-32 lg:pt-36 pb-20 sm:pb-28">
           
           {/* Header Row: Title, Subtitle, Author on Left & Share Button on Right */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-7 sm:mb-8 text-white">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6 mb-7 sm:mb-8 text-white">
             <div className="max-w-3xl">
-              <h1 className="font-heading font-bold text-3xl sm:text-4xl md:text-[44px] lg:text-[46px] leading-[1.18] tracking-tight text-white mb-3">
-                Build Digital Asset: A Comprehensive Guide
+              <h1 className="font-heading font-bold text-2xl sm:text-4xl md:text-[44px] lg:text-[46px] leading-[1.18] tracking-tight text-white mb-2.5 sm:mb-3">
+                {courseTitle}
               </h1>
-              <p className="text-white/90 text-base sm:text-lg md:text-[19px] font-normal leading-relaxed mb-4">
+              <p className="text-white/90 text-sm sm:text-lg md:text-[19px] font-normal leading-relaxed mb-3 sm:mb-4">
                 Unlock the Power of Digital Creation with Expert Guidance
               </p>
-              <p className="text-white/85 text-sm sm:text-base font-normal">
+              <p className="text-white/85 text-xs sm:text-base font-normal">
                 by{" "}
                 <Link
-                  href="/creators"
+                  href="/creators/purepearl-studio"
                   className="text-[#d4fb20] font-semibold hover:underline transition-colors"
                 >
                   purepearl studio
@@ -205,7 +360,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
               <button
                 type="button"
                 onClick={handleShare}
-                className="inline-flex items-center gap-2 bg-[#d4fb20] hover:bg-[#cbfc01] text-neutral-950 font-semibold text-sm sm:text-base px-5 py-2.5 rounded-full transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg active:scale-95"
+                className="inline-flex items-center gap-2 bg-[#d4fb20] hover:bg-[#cbfc01] text-neutral-950 font-semibold text-xs sm:text-base px-4 sm:px-5 py-2 sm:py-2.5 rounded-full transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg active:scale-95"
               >
                 {copiedLink ? (
                   <>
@@ -223,22 +378,22 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
           </div>
 
           {/* Badges Row */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-3.5 mb-8 sm:mb-10">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3.5 mb-8 sm:mb-10">
             {/* Level Badge */}
-            <div className="inline-flex items-center gap-2 bg-white text-neutral-900 font-medium text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 rounded-full shadow-xs">
-              <BarChart2 className="w-4 h-4 text-[#0043ff]" />
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-white text-neutral-900 font-medium text-xs sm:text-sm px-3.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full shadow-xs">
+              <BarChart2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0043ff]" />
               <span>Intermediate</span>
             </div>
 
             {/* Rating Badge */}
-            <div className="inline-flex items-center gap-2 bg-white text-neutral-900 font-medium text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 rounded-full shadow-xs">
-              <Star className="w-4 h-4 fill-[#0043ff] text-[#0043ff]" />
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-white text-neutral-900 font-medium text-xs sm:text-sm px-3.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full shadow-xs">
+              <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-[#0043ff] text-[#0043ff]" />
               <span>4.8 (172 reviews)</span>
             </div>
 
             {/* Students Badge */}
-            <div className="inline-flex items-center gap-2 bg-white text-neutral-900 font-medium text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 rounded-full shadow-xs">
-              <Users className="w-4 h-4 text-[#0043ff]" />
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-white text-neutral-900 font-medium text-xs sm:text-sm px-3.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full shadow-xs">
+              <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0043ff]" />
               <span>199 Students</span>
             </div>
           </div>
@@ -252,7 +407,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
               {/* Video Player Card */}
               <div
                 onClick={() => setIsPlayingVideo(true)}
-                className="relative w-full aspect-[16/10] bg-[#e7e9e8] rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-2xl cursor-pointer group border border-white/20 select-none mb-10 sm:mb-12"
+                className="relative w-full aspect-[16/10] bg-[#e7e9e8] rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-2xl cursor-pointer group border border-white/20 select-none mb-8 sm:mb-12"
               >
                 {/* Video Image */}
                 <Image
@@ -260,23 +415,29 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                   alt="Build Digital Asset Video Lecture Preview"
                   fill
                   priority
+                  unoptimized
                   className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
                 />
 
                 {/* Video Play Button Overlay */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl sm:rounded-3xl bg-black/35 backdrop-blur-md flex items-center justify-center border border-white/30 text-white shadow-2xl group-hover:scale-110 group-hover:bg-black/50 transition-all duration-300">
-                    <Play className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 fill-white text-white ml-1" />
+                  <div className="w-14 h-14 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl sm:rounded-3xl bg-black/35 backdrop-blur-md flex items-center justify-center border border-white/30 text-white shadow-2xl group-hover:scale-110 group-hover:bg-black/50 transition-all duration-300">
+                    <Play className="w-6 h-6 sm:w-8 sm:h-8 lg:w-9 lg:h-9 fill-white text-white ml-0.5 sm:ml-1" />
                   </div>
                 </div>
               </div>
 
+              {/* Mobile View: Floating Enrollment Card Directly Below Video */}
+              <div className="block lg:hidden mb-10">
+                {renderEnrollmentCard()}
+              </div>
+
               {/* Tabs Navigation (On White Background) */}
-              <div className="flex items-center gap-2.5 sm:gap-3 mb-8 sm:mb-10">
+              <div className="flex overflow-x-auto no-scrollbar items-center gap-2 sm:gap-3 mb-8 sm:mb-10 pb-1">
                 <button
                   type="button"
                   onClick={() => handleTabChange("about")}
-                  className={`px-6 sm:px-7 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`px-5 sm:px-7 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                     activeTab === "about"
                       ? "bg-[#d4fb20] text-neutral-950 shadow-xs"
                       : "bg-[#f4f4f5] hover:bg-neutral-200 text-neutral-700"
@@ -288,7 +449,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                 <button
                   type="button"
                   onClick={() => handleTabChange("lessons")}
-                  className={`px-6 sm:px-7 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`px-5 sm:px-7 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                     activeTab === "lessons"
                       ? "bg-[#d4fb20] text-neutral-950 shadow-xs"
                       : "bg-[#f4f4f5] hover:bg-neutral-200 text-neutral-700"
@@ -300,7 +461,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                 <button
                   type="button"
                   onClick={() => handleTabChange("reviews")}
-                  className={`px-6 sm:px-7 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`px-5 sm:px-7 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                     activeTab === "reviews"
                       ? "bg-[#d4fb20] text-neutral-950 shadow-xs"
                       : "bg-[#f4f4f5] hover:bg-neutral-200 text-neutral-700"
@@ -363,6 +524,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                             src={peak.src}
                             alt={peak.alt}
                             fill
+                            unoptimized
                             className="object-cover hover:scale-105 transition-transform duration-300"
                           />
                         </div>
@@ -486,19 +648,19 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                   </div>
 
                   {/* Ratings Summary Card */}
-                  <div className="border border-neutral-200/90 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 max-w-xl bg-white shadow-xs">
+                  <div className="border border-neutral-200/90 rounded-2xl p-5 sm:p-8 flex flex-col sm:flex-row items-center gap-5 sm:gap-8 max-w-xl bg-white shadow-xs">
                     {/* Left Lime Rating Badge */}
-                    <div className="w-28 h-28 sm:w-32 sm:h-32 bg-[#d4fb20] rounded-2xl flex flex-col items-center justify-center shrink-0 shadow-xs">
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 bg-[#d4fb20] rounded-2xl flex flex-col items-center justify-center shrink-0 shadow-xs">
                       <span className="text-xs font-semibold text-neutral-800">Ratings</span>
-                      <span className="font-heading font-extrabold text-4xl sm:text-[42px] text-neutral-950 leading-none mt-1">
-                        4.7
+                      <span className="font-heading font-extrabold text-3xl sm:text-[42px] text-neutral-950 leading-none mt-1">
+                        4.8
                       </span>
                     </div>
 
                     {/* Right Bars */}
                     <div className="flex-1 w-full space-y-2">
                       {RATING_DISTRIBUTION.map((item) => (
-                        <div key={item.stars} className="flex items-center gap-3 text-xs">
+                        <div key={item.stars} className="flex items-center gap-2 sm:gap-3 text-xs">
                           {/* Progress track */}
                           <div className="flex-1 h-2 bg-neutral-100 rounded-full overflow-hidden">
                             <div
@@ -512,13 +674,13 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                             {[1, 2, 3, 4, 5].map((star) => (
                               <Star
                                 key={star}
-                                className="w-3.5 h-3.5 fill-neutral-800 text-neutral-800"
+                                className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-neutral-800 text-neutral-800"
                               />
                             ))}
                           </div>
 
                           {/* Count */}
-                          <span className="w-8 text-right font-medium text-neutral-600 shrink-0">
+                          <span className="w-7 sm:w-8 text-right font-medium text-neutral-600 shrink-0">
                             {item.count}
                           </span>
                         </div>
@@ -565,10 +727,24 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
 
                     {/* Review Cards List */}
                     <div className="space-y-4">
-                      {filteredReviews.map((rev) => (
+                      {filteredReviews.length === 0 ? (
+                        <div className="py-12 px-6 text-center bg-neutral-50 rounded-2xl border border-neutral-200/80">
+                          <p className="text-neutral-600 text-sm font-medium">
+                            No reviews found for {selectedRatingFilter}-star rating.
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedRatingFilter("all")}
+                            className="mt-3 px-5 py-2 rounded-full bg-[#0043ff] text-white text-xs font-semibold hover:bg-[#003be2] transition-colors cursor-pointer"
+                          >
+                            Show All Reviews
+                          </button>
+                        </div>
+                      ) : (
+                        filteredReviews.map((rev) => (
                         <div
                           key={rev.id}
-                          className="border border-neutral-200/90 rounded-2xl p-6 sm:p-7 bg-white shadow-xs hover:border-neutral-300 transition-colors"
+                          className="border border-neutral-200/90 rounded-2xl p-5 sm:p-7 bg-white shadow-xs hover:border-neutral-300 transition-colors"
                         >
                           {/* Top Reviewer Info */}
                           <div className="flex items-center justify-between mb-3">
@@ -578,6 +754,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                                   src={rev.avatar}
                                   alt={rev.name}
                                   fill
+                                  unoptimized
                                   className="object-cover"
                                 />
                               </div>
@@ -610,143 +787,34 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
                             {rev.comment}
                           </p>
                         </div>
-                      ))}
+                      )))}
                     </div>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* RIGHT COLUMN: Floating Enrollment Card */}
-            <div className="lg:col-span-4 sticky top-24">
-              <div className="bg-white rounded-[28px] sm:rounded-3xl p-6 sm:p-7 lg:p-8 shadow-xl border border-neutral-100/90 text-neutral-900">
-                {/* Header: Lessons count */}
-                <h2 className="font-heading font-bold text-lg sm:text-xl text-neutral-900 tracking-tight">
-                  112 Lessons (24 hours)
-                </h2>
-
-                {/* Lesson Snippets */}
-                <div className="mt-4 space-y-3">
-                  <div className="flex items-center justify-between text-xs sm:text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-neutral-800">01</span>
-                      <span className="text-neutral-700 font-normal truncate max-w-[190px]">
-                        Introduction to Digital Assets
-                      </span>
-                    </div>
-                    <span className="text-[#0043ff] font-medium shrink-0">12 mins</span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs sm:text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-neutral-800">02</span>
-                      <span className="text-neutral-700 font-normal truncate max-w-[190px]">
-                        Design Principles for Impacts
-                      </span>
-                    </div>
-                    <span className="text-[#0043ff] font-medium shrink-0">21 mins</span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs sm:text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-neutral-800">03</span>
-                      <span className="text-neutral-700 font-normal truncate max-w-[190px]">
-                        Advanced Techniques in Digital Creation
-                      </span>
-                    </div>
-                    <span className="text-[#0043ff] font-medium shrink-0">16 mins</span>
-                  </div>
-                </div>
-
-                <p className="text-xs text-neutral-400 font-medium mt-2">
-                  99 more videos
-                </p>
-
-                {/* Callout message */}
-                <p className="text-neutral-600 text-xs sm:text-sm leading-relaxed mt-5">
-                  Ready to Dive In? Enroll Now and Start Building Your Digital Future!
-                </p>
-
-                {/* Price */}
-                <div className="flex items-baseline gap-1.5 mt-4">
-                  <span className="text-3xl sm:text-4xl font-extrabold text-[#0043ff] font-heading">
-                    $25
-                  </span>
-                  <span className="text-neutral-500 text-xs sm:text-sm font-medium">
-                    /lifetime
-                  </span>
-                </div>
-
-                {/* Enroll Button */}
-                <button
-                  type="button"
-                  onClick={() => setEnrolled(true)}
-                  className="w-full mt-4 bg-[#d4fb20] hover:bg-[#cbfc01] text-neutral-950 font-bold text-sm sm:text-base py-3.5 px-6 rounded-full transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md active:scale-[0.99] text-center"
-                >
-                  {enrolled ? "Enrolled Successfully!" : "Enroll Now"}
-                </button>
-
-                {/* Features included */}
-                <div className="mt-7">
-                  <h3 className="font-heading font-bold text-sm sm:text-base text-neutral-900 mb-3.5">
-                    This course include
-                  </h3>
-                  <ul className="space-y-3 text-xs sm:text-sm text-neutral-700">
-                    <li className="flex items-center gap-2.5">
-                      <FileText className="w-4 h-4 text-[#0043ff]" />
-                      <span>Learning Resources</span>
-                    </li>
-                    <li className="flex items-center gap-2.5">
-                      <Video className="w-4 h-4 text-[#0043ff]" />
-                      <span>Quality Lesson Videos</span>
-                    </li>
-                    <li className="flex items-center gap-2.5">
-                      <Award className="w-4 h-4 text-[#0043ff]" />
-                      <span>Certificate of Completion</span>
-                    </li>
-                    <li className="flex items-center gap-2.5">
-                      <Headphones className="w-4 h-4 text-[#0043ff]" />
-                      <span>Private Consultation</span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Creator Profile Section */}
-                <div className="mt-6 pt-6 border-t border-neutral-200/80">
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0">
-                      <Image
-                        src="/assets/course-details/creator-purepearl.png"
-                        alt="PurePearl Studio"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="font-heading font-bold text-sm sm:text-base text-neutral-900 leading-tight">
-                        PurePearl Studio
-                      </h4>
-                      <p className="text-neutral-500 text-xs mt-0.5">Professional Creator</p>
-                    </div>
-                  </div>
-
-                  <p className="text-neutral-500 text-xs sm:text-sm leading-relaxed mt-4">
-                    Ready to Dive In? Enroll Now and Start Building Your Digital Future!
-                  </p>
-
-                  <div className="mt-4">
-                    <Link
-                      href="/creators"
-                      className="inline-block border border-neutral-300 hover:border-neutral-400 bg-white hover:bg-neutral-50 text-neutral-800 font-medium text-xs sm:text-sm px-5 py-2 rounded-full transition-colors"
-                    >
-                      See Full Profile
-                    </Link>
-                  </div>
-                </div>
-              </div>
+            {/* RIGHT COLUMN: Floating Enrollment Card for desktop */}
+            <div className="hidden lg:block lg:col-span-4 sticky top-24">
+              {renderEnrollmentCard()}
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile Sticky Bottom Enrollment Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-neutral-200 px-4 py-3 flex items-center justify-between shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div>
+          <div className="text-[11px] text-neutral-500 font-medium uppercase tracking-wider">Lifetime Access</div>
+          <div className="text-xl font-heading font-extrabold text-[#0043ff] leading-none">$25</div>
+        </div>
+        <button
+          type="button"
+          onClick={() => setEnrolled(true)}
+          className="bg-[#d4fb20] hover:bg-[#cbfc01] text-black font-bold text-sm px-6 py-2.5 rounded-full transition-all active:scale-95 shadow-xs cursor-pointer"
+        >
+          {enrolled ? "Enrolled!" : "Enroll Now"}
+        </button>
       </div>
 
       {/* Video Modal Player */}
@@ -764,7 +832,7 @@ export default function CourseDetailsView({ initialTab = "about" }: CourseDetail
             <div className="relative aspect-video w-full flex items-center justify-center bg-neutral-900">
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1"
+                src="https://www.youtube-nocookie.com/embed/L_LUpnjgPso?autoplay=1"
                 title="Course Lecture Preview"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
