@@ -6,37 +6,37 @@ const CATEGORIES = [
     id: 1,
     name: "Design",
     image: "/assets/categories/category-ui-ux-design.png",
-    href: "#courses",
+    href: "/search?category=UI%2FUX%20Design",
   },
   {
     id: 2,
     name: "Development",
     image: "/assets/categories/category-programming-code.png",
-    href: "#courses",
+    href: "/search?category=Web%20Development",
   },
   {
     id: 3,
     name: "IT & Software",
     image: "/assets/categories/category-web-development.png",
-    href: "#courses",
+    href: "/search?category=Marketing",
   },
   {
     id: 4,
     name: "Business",
     image: "/assets/categories/category-business-finance.png",
-    href: "#courses",
+    href: "/search?category=Creative%20Marketing",
   },
   {
     id: 5,
     name: "Marketing",
     image: "/assets/categories/category-marketing-advertising.png",
-    href: "#courses",
+    href: "/search?category=Marketing",
   },
   {
     id: 6,
     name: "Photography",
     image: "/assets/categories/category-photography-video.png",
-    href: "#courses",
+    href: "/search?category=Drawing%20%26%20Painting",
   },
 ];
 
@@ -62,12 +62,13 @@ export default function LearningPathsSection() {
               href={cat.href}
               className="group block transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-[0_12px_24px_rgba(212,251,32,0.25)] cursor-pointer"
             >
-              <div className="relative w-full aspect-square rounded-[24px] overflow-hidden">
+              <div className="relative w-full aspect-square rounded-[24px] overflow-hidden bg-neutral-50/50">
                 <Image
                   src={cat.image}
                   alt={cat.name}
                   width={167}
                   height={167}
+                  unoptimized
                   className="w-full h-full object-contain group-hover:scale-102 transition-transform duration-300"
                 />
               </div>

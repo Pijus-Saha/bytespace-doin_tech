@@ -144,21 +144,58 @@ export default function CreatorProfileView() {
   const levelRef = useRef<HTMLDivElement>(null);
   const categoryRef = useRef<HTMLDivElement>(null);
   const sortRef = useRef<HTMLDivElement>(null);
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  const toggleFilterModal = () => {
+    setIsFilterModalOpen((prev) => !prev);
+    setIsLevelOpen(false);
+    setIsCategoryOpen(false);
+    setIsSortOpen(false);
+  };
+
+  const toggleLevel = () => {
+    setIsLevelOpen((prev) => !prev);
+    setIsFilterModalOpen(false);
+    setIsCategoryOpen(false);
+    setIsSortOpen(false);
+  };
+
+  const toggleCategory = () => {
+    setIsCategoryOpen((prev) => !prev);
+    setIsFilterModalOpen(false);
+    setIsLevelOpen(false);
+    setIsSortOpen(false);
+  };
+
+  const toggleSort = () => {
+    setIsSortOpen((prev) => !prev);
+    setIsFilterModalOpen(false);
+    setIsLevelOpen(false);
+    setIsCategoryOpen(false);
+  };
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (levelRef.current && !levelRef.current.contains(e.target as Node)) {
+    const handleClickOutside = (e: Event) => {
+      const target = e.target as Node;
+      if (filterRef.current && !filterRef.current.contains(target)) {
+        setIsFilterModalOpen(false);
+      }
+      if (levelRef.current && !levelRef.current.contains(target)) {
         setIsLevelOpen(false);
       }
-      if (categoryRef.current && !categoryRef.current.contains(e.target as Node)) {
+      if (categoryRef.current && !categoryRef.current.contains(target)) {
         setIsCategoryOpen(false);
       }
-      if (sortRef.current && !sortRef.current.contains(e.target as Node)) {
+      if (sortRef.current && !sortRef.current.contains(target)) {
         setIsSortOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("pointerdown", handleClickOutside);
+    };
   }, []);
 
   const handleFollowToggle = () => {
@@ -260,33 +297,33 @@ export default function CreatorProfileView() {
           {/* Creator Bio Description */}
           <div className="mt-8 sm:mt-9 max-w-5xl text-white/95 text-sm sm:text-base leading-[1.65] space-y-2.5 font-normal">
             <p>
-              Welcome to the creative world of [Creator&apos;s Name]. Here, you&apos;ll discover the passion, expertise, and inspiration that drive my creative journey. Let&apos;s explore and learn together!
+              Welcome to the creative world of PurePearl Studio. Here, you&apos;ll discover the passion, expertise, and inspiration that drive my creative journey. Let&apos;s explore and learn together!
             </p>
             <p>
-              ive into my creative portfolio, showcasing a glimpse of my artistic endeavors. From digital designs to multimedia projects, each piece tells a unique story. Explore the world of creativity with me.
+              Dive into my creative portfolio, showcasing a glimpse of my artistic endeavors. From digital designs to multimedia projects, each piece tells a unique story. Explore the world of creativity with me.
             </p>
           </div>
 
           {/* Stats Badges and Follow CTA Button */}
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-between gap-4">
             {/* Stats Badges (Left) */}
-            <div className="flex items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-2.5 sm:gap-4">
               {/* Products Stat Pill */}
-              <div className="bg-white rounded-full px-6 py-2.5 inline-flex items-center gap-2 shadow-xs select-none">
-                <span className="text-[#0043ff] font-bold text-base sm:text-lg">
-                  3
+              <div className="bg-white rounded-full px-4 sm:px-6 py-2 sm:py-2.5 inline-flex items-center gap-1.5 sm:gap-2 shadow-xs select-none">
+                <span className="text-[#0043ff] font-bold text-sm sm:text-lg">
+                  {filteredCourses.length}
                 </span>
-                <span className="text-neutral-900 font-medium text-base sm:text-lg">
+                <span className="text-neutral-900 font-medium text-sm sm:text-lg">
                   Products
                 </span>
               </div>
 
               {/* Followers Stat Pill */}
-              <div className="bg-white rounded-full px-6 py-2.5 inline-flex items-center gap-2 shadow-xs select-none">
-                <span className="text-[#0043ff] font-bold text-base sm:text-lg">
+              <div className="bg-white rounded-full px-4 sm:px-6 py-2 sm:py-2.5 inline-flex items-center gap-1.5 sm:gap-2 shadow-xs select-none">
+                <span className="text-[#0043ff] font-bold text-sm sm:text-lg">
                   {followersCount}
                 </span>
-                <span className="text-neutral-900 font-medium text-base sm:text-lg">
+                <span className="text-neutral-900 font-medium text-sm sm:text-lg">
                   Followers
                 </span>
               </div>
@@ -297,7 +334,7 @@ export default function CreatorProfileView() {
               <button
                 type="button"
                 onClick={handleFollowToggle}
-                className={`px-8 sm:px-9 py-2.5 sm:py-3 rounded-full font-semibold text-base sm:text-[17px] transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md active:scale-95 select-none ${
+                className={`px-6 sm:px-9 py-2 sm:py-3 rounded-full font-semibold text-sm sm:text-[17px] transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md active:scale-95 select-none ${
                   isFollowing
                     ? "bg-white text-[#003be2] ring-2 ring-[#d4fb20]"
                     : "bg-[#d4fb20] hover:bg-[#cbfc01] text-black"
@@ -311,23 +348,23 @@ export default function CreatorProfileView() {
       </section>
 
       {/* 2. Controls & Filters Bar */}
-      <section className="w-full bg-white pt-10 sm:pt-12 pb-7">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 xl:px-[120px]">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+      <section className="w-full bg-white pt-8 sm:pt-12 pb-6 sm:pb-7">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-12 lg:px-16 xl:px-[120px]">
+          <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
             {/* Left Filter Buttons Group */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {/* 1. Filter Button */}
-              <div className="relative">
+              <div className="relative" ref={filterRef}>
                 <button
                   type="button"
-                  onClick={() => setIsFilterModalOpen(!isFilterModalOpen)}
-                  className={`px-5 py-2.5 rounded-full border text-sm font-medium inline-flex items-center gap-2 cursor-pointer transition-all duration-200 select-none ${
+                  onClick={toggleFilterModal}
+                  className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full border text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 select-none ${
                     isFilterModalOpen || hasActiveFilters
                       ? "border-neutral-900 bg-neutral-900 text-white shadow-xs"
                       : "border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800"
                   }`}
                 >
-                  <Filter className="w-4 h-4" strokeWidth={2} />
+                  <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
                   <span>Filter</span>
                   {hasActiveFilters && (
                     <span className="w-2 h-2 rounded-full bg-[#d4fb20]" />
@@ -336,7 +373,7 @@ export default function CreatorProfileView() {
 
                 {/* Filter Popover Modal */}
                 {isFilterModalOpen && (
-                  <div className="absolute left-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-neutral-200 p-5 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute left-0 mt-2 w-72 sm:w-80 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-2xl border border-neutral-200 p-4 sm:p-5 z-50 animate-in fade-in zoom-in-95 duration-150">
                     <div className="flex items-center justify-between pb-3 border-b border-neutral-100 mb-4">
                       <span className="font-heading font-semibold text-neutral-900 text-base">
                         Filter Creator Courses
@@ -425,8 +462,8 @@ export default function CreatorProfileView() {
               <div className="relative" ref={levelRef}>
                 <button
                   type="button"
-                  onClick={() => setIsLevelOpen(!isLevelOpen)}
-                  className={`px-5 py-2.5 rounded-full border text-sm font-medium inline-flex items-center gap-2 cursor-pointer transition-all duration-200 select-none ${
+                  onClick={toggleLevel}
+                  className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full border text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 select-none ${
                     selectedLevel !== "All Levels"
                       ? "border-[#0043ff] text-[#0043ff] bg-blue-50/50"
                       : "border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800"
@@ -445,7 +482,7 @@ export default function CreatorProfileView() {
                 </button>
 
                 {isLevelOpen && (
-                  <div className="absolute left-0 mt-2 w-44 bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute left-0 mt-2 w-44 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                     {LEVEL_OPTIONS.map((lvl) => (
                       <button
                         key={lvl}
@@ -474,15 +511,15 @@ export default function CreatorProfileView() {
               <div className="relative" ref={categoryRef}>
                 <button
                   type="button"
-                  onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                  className={`px-5 py-2.5 rounded-full border text-sm font-medium inline-flex items-center gap-2 cursor-pointer transition-all duration-200 select-none ${
+                  onClick={toggleCategory}
+                  className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full border text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 select-none ${
                     selectedCategory !== "All Categories"
                       ? "border-[#0043ff] text-[#0043ff] bg-blue-50/50"
                       : "border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800"
                   }`}
                 >
                   <svg
-                    className="w-4 h-4 text-neutral-800"
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-800"
                     viewBox="0 0 20 20"
                     fill="none"
                     stroke="currentColor"
@@ -500,7 +537,7 @@ export default function CreatorProfileView() {
                 </button>
 
                 {isCategoryOpen && (
-                  <div className="absolute left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute left-0 mt-2 w-56 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                     {CATEGORY_OPTIONS.map((cat) => (
                       <button
                         key={cat}
@@ -527,14 +564,14 @@ export default function CreatorProfileView() {
             </div>
 
             {/* Right: Most Relevant Sort Button (3 horizontal lines) */}
-            <div className="relative" ref={sortRef}>
+            <div className="relative shrink-0" ref={sortRef}>
               <button
                 type="button"
-                onClick={() => setIsSortOpen(!isSortOpen)}
-                className="px-5 py-2.5 rounded-full border border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800 text-sm font-medium inline-flex items-center gap-2 cursor-pointer transition-all duration-200 select-none hover:shadow-xs"
+                onClick={toggleSort}
+                className="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full border border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800 text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 select-none hover:shadow-xs"
               >
                 <svg
-                  className="w-4 h-4 text-neutral-800"
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-800"
                   viewBox="0 0 20 20"
                   fill="none"
                   stroke="currentColor"
@@ -549,7 +586,7 @@ export default function CreatorProfileView() {
               </button>
 
               {isSortOpen && (
-                <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="absolute right-0 mt-2 w-52 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                   {SORT_OPTIONS.map((sort) => (
                     <button
                       key={sort}
@@ -602,7 +639,7 @@ export default function CreatorProfileView() {
                 >
                   {/* Thumbnail Container */}
                   <Link
-                    href="/courses/build-digital-asset"
+                    href={course.id === 2 ? "/courses/build-digital-asset" : `/courses/${course.id}`}
                     className="block relative w-full aspect-[341/200] rounded-[22px] sm:rounded-[24px] overflow-hidden bg-neutral-100"
                   >
                     <Image
@@ -633,7 +670,7 @@ export default function CreatorProfileView() {
                       {/* Title & Rating */}
                       <div className="flex items-center justify-between gap-2">
                         <h3 className="font-heading font-bold text-[19px] sm:text-[20px] text-neutral-900 leading-snug group-hover:text-[#0043ff] transition-colors truncate">
-                          <Link href="/courses/build-digital-asset">
+                          <Link href={course.id === 2 ? "/courses/build-digital-asset" : `/courses/${course.id}`}>
                             {course.title}
                           </Link>
                         </h3>
@@ -680,6 +717,7 @@ export default function CreatorProfileView() {
                             src="/assets/avatars/avatar-stack-users.png"
                             alt="Enrolled students"
                             fill
+                            unoptimized
                             className="object-contain"
                           />
                         </div>

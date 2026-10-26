@@ -7,6 +7,11 @@ export const metadata: Metadata = {
     "Student reviews and ratings for Build Digital Asset on ByteSpace.",
 };
 
-export default function CourseDynamicReviewsPage() {
-  return <CourseDetailsView initialTab="reviews" />;
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function CourseDynamicReviewsPage({ params }: PageProps) {
+  const { id } = await params;
+  return <CourseDetailsView initialTab="reviews" courseId={id} />;
 }

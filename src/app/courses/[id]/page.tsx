@@ -6,21 +6,34 @@ interface PageProps {
   searchParams: Promise<{ tab?: string }>;
 }
 
+const COURSE_TITLES: Record<string, string> = {
+  "1": "Learn Figma from Basic",
+  "2": "Build Digital Asset: A Comprehensive Guide",
+  "build-digital-asset": "Build Digital Asset: A Comprehensive Guide",
+  "3": "The Power of Big Data",
+  "4": "Balancing Productivity and Creativity",
+  "5": "Mastering Money Management",
+  "6": "From Idea to Startup Success",
+};
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const title =
-    id === "build-digital-asset" || id === "2"
-      ? "Build Digital Asset: A Comprehensive Guide - ByteSpace"
-      : `Course Details - ${id} - ByteSpace`;
+  const courseTitle =
+    COURSE_TITLES[id] ||
+    id
+      .split("-")
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join(" ");
 
   return {
-    title,
+    title: `${courseTitle} - ByteSpace`,
     description:
-      "Unlock the Power of Digital Creation with Expert Guidance. Learn digital asset creation on ByteSpace.",
+      "Unlock the Power of Digital Creation with Expert Guidance. Learn on ByteSpace with industry leaders.",
   };
 }
 
-export default async function CourseDynamicPage({ searchParams }: PageProps) {
+export default async function CourseDynamicPage({ params, searchParams }: PageProps) {
+  const { id } = await params;
   const resolvedSearchParams = await searchParams;
   const tabParam = resolvedSearchParams?.tab?.toLowerCase();
 
@@ -31,5 +44,18 @@ export default async function CourseDynamicPage({ searchParams }: PageProps) {
     initialTab = "reviews";
   }
 
-  return <CourseDetailsView initialTab={initialTab} />;
+  const courseTitle =
+    COURSE_TITLES[id] ||
+    id
+      .split("-")
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join(" ");
+
+  return (
+    <CourseDetailsView
+      initialTab={initialTab}
+      courseId={id}
+      courseTitle={courseTitle}
+    />
+  );
 }

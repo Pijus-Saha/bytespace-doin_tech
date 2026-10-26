@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import NotFound from "@/app/not-found";
 
 // Tag categories matching Figma exact list
 const CATEGORY_TAGS = [
@@ -163,13 +162,20 @@ const ALL_COURSES: Course[] = Array.from({ length: 90 }, (_, index) => {
     "Music",
     "Cooking",
   ];
+  const levels: ("Beginner" | "Intermediate" | "Advanced")[] = [
+    "Beginner",
+    "Intermediate",
+    "Advanced",
+  ];
   const assignedCategory =
     index < 18 ? base.category : tagCategories[index % tagCategories.length];
+  const assignedLevel = levels[index % levels.length];
 
   return {
     ...base,
     id: index + 1,
     category: assignedCategory,
+    level: assignedLevel,
   };
 });
 
@@ -179,6 +185,10 @@ export default function SearchPageContent() {
 
   // Search query & options
   const urlQuery = searchParams.get("q") ?? "";
+  const urlCategory = searchParams.get("category") ?? "";
+  const pageParam = searchParams.get("page");
+  const initialPage = pageParam ? Math.max(1, parseInt(pageParam, 10)) : 1;
+
   const [searchQuery, setSearchQuery] = useState(urlQuery);
   const [prevUrlQuery, setPrevUrlQuery] = useState(urlQuery);
 
@@ -191,7 +201,7 @@ export default function SearchPageContent() {
   const [isSearchTypeOpen, setIsSearchTypeOpen] = useState(false);
 
   // Filters state
-  const [activeTag, setActiveTag] = useState("Featured");
+  const [activeTag, setActiveTag] = useState(urlCategory || "Featured");
   const [selectedLevel, setSelectedLevel] = useState("All Levels");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [selectedSort, setSelectedSort] = useState("Most relevant");
@@ -203,40 +213,84 @@ export default function SearchPageContent() {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   // Pagination state (18 items per page = 6 rows x 3 cols, exactly like Figma)
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const itemsPerPage = 18;
 
   // Refs for closing dropdowns when clicking outside
   const searchTypeRef = useRef<HTMLDivElement>(null);
+  const filterRef = useRef<HTMLDivElement>(null);
   const levelRef = useRef<HTMLDivElement>(null);
   const categoryRef = useRef<HTMLDivElement>(null);
   const sortRef = useRef<HTMLDivElement>(null);
 
-  // Click outside listener
+  // Helper toggle functions to ensure only one dropdown is open at a time
+  const toggleSearchType = () => {
+    setIsSearchTypeOpen((prev) => !prev);
+    setIsLevelOpen(false);
+    setIsCategoryOpen(false);
+    setIsSortOpen(false);
+    setIsFilterModalOpen(false);
+  };
+
+  const toggleFilterModal = () => {
+    setIsFilterModalOpen((prev) => !prev);
+    setIsSearchTypeOpen(false);
+    setIsLevelOpen(false);
+    setIsCategoryOpen(false);
+    setIsSortOpen(false);
+  };
+
+  const toggleLevel = () => {
+    setIsLevelOpen((prev) => !prev);
+    setIsSearchTypeOpen(false);
+    setIsCategoryOpen(false);
+    setIsSortOpen(false);
+    setIsFilterModalOpen(false);
+  };
+
+  const toggleCategory = () => {
+    setIsCategoryOpen((prev) => !prev);
+    setIsSearchTypeOpen(false);
+    setIsLevelOpen(false);
+    setIsSortOpen(false);
+    setIsFilterModalOpen(false);
+  };
+
+  const toggleSort = () => {
+    setIsSortOpen((prev) => !prev);
+    setIsSearchTypeOpen(false);
+    setIsLevelOpen(false);
+    setIsCategoryOpen(false);
+    setIsFilterModalOpen(false);
+  };
+
+  // Click & touch outside listener
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        searchTypeRef.current &&
-        !searchTypeRef.current.contains(e.target as Node)
-      ) {
+    const handleClickOutside = (e: Event) => {
+      const target = e.target as Node;
+      if (searchTypeRef.current && !searchTypeRef.current.contains(target)) {
         setIsSearchTypeOpen(false);
       }
-      if (levelRef.current && !levelRef.current.contains(e.target as Node)) {
+      if (filterRef.current && !filterRef.current.contains(target)) {
+        setIsFilterModalOpen(false);
+      }
+      if (levelRef.current && !levelRef.current.contains(target)) {
         setIsLevelOpen(false);
       }
-      if (
-        categoryRef.current &&
-        !categoryRef.current.contains(e.target as Node)
-      ) {
+      if (categoryRef.current && !categoryRef.current.contains(target)) {
         setIsCategoryOpen(false);
       }
-      if (sortRef.current && !sortRef.current.contains(e.target as Node)) {
+      if (sortRef.current && !sortRef.current.contains(target)) {
         setIsSortOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("pointerdown", handleClickOutside);
+    };
   }, []);
 
   // Filter & sort logic
@@ -322,12 +376,6 @@ export default function SearchPageContent() {
     selectedCategory !== "All Categories" ||
     selectedSort !== "Most relevant";
 
-  // If page query parameter is 2, 3, 4, 5 (or >= 2), render 404 page
-  const pageParam = searchParams.get("page");
-  if (pageParam && parseInt(pageParam, 10) >= 2) {
-    return <NotFound />;
-  }
-
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* 1. Global Navigation Bar */}
@@ -344,11 +392,11 @@ export default function SearchPageContent() {
           {/* Search Bar + Courses Dropdown Pill Container */}
           <form
             onSubmit={handleSearchSubmit}
-            className="w-full max-w-[660px] flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 relative z-30"
+            className="w-full max-w-[660px] flex flex-row items-center justify-center gap-2 sm:gap-4 relative z-30"
           >
             {/* White Search Pill */}
-            <div className="relative flex-1 w-full max-w-[460px] bg-white rounded-full h-[52px] sm:h-[54px] px-5 sm:px-6 flex items-center shadow-lg transition-all focus-within:ring-2 focus-within:ring-[#d4fb20]">
-              <Search className="w-5 h-5 text-[#82868e] shrink-0 mr-3" />
+            <div className="relative flex-1 min-w-0 max-w-[460px] bg-white rounded-full h-[48px] sm:h-[54px] px-4 sm:px-6 flex items-center shadow-lg transition-all focus-within:ring-2 focus-within:ring-[#d4fb20]">
+              <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[#82868e] shrink-0 mr-2 sm:mr-3" />
               <input
                 type="text"
                 value={searchQuery}
@@ -357,7 +405,7 @@ export default function SearchPageContent() {
                   setCurrentPage(1);
                 }}
                 placeholder="Search"
-                className="w-full bg-transparent text-neutral-800 placeholder-[#82868e] text-base focus:outline-none"
+                className="w-full bg-transparent text-neutral-800 placeholder-[#82868e] text-sm sm:text-base focus:outline-none"
               />
               {searchQuery && (
                 <button
@@ -374,11 +422,11 @@ export default function SearchPageContent() {
             </div>
 
             {/* Lime "Courses ⌵" Dropdown Pill */}
-            <div className="relative" ref={searchTypeRef}>
+            <div className="relative shrink-0" ref={searchTypeRef}>
               <button
                 type="button"
-                onClick={() => setIsSearchTypeOpen(!isSearchTypeOpen)}
-                className="h-[52px] sm:h-[54px] px-6 bg-[#d4fb20] hover:bg-[#cbfc01] text-black font-semibold text-base rounded-full flex items-center justify-between gap-3 shadow-md shrink-0 cursor-pointer transition-all duration-200 select-none active:scale-95"
+                onClick={toggleSearchType}
+                className="h-[48px] sm:h-[54px] px-4 sm:px-6 bg-[#d4fb20] hover:bg-[#cbfc01] text-black font-semibold text-sm sm:text-base rounded-full flex items-center justify-between gap-1.5 sm:gap-3 shadow-md shrink-0 cursor-pointer transition-all duration-200 select-none active:scale-95"
               >
                 <span>{selectedSearchType}</span>
                 <ChevronDown
@@ -390,7 +438,7 @@ export default function SearchPageContent() {
 
               {/* Search Type Dropdown Menu */}
               {isSearchTypeOpen && (
-                <div className="absolute right-0 sm:left-0 mt-2 w-44 bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="absolute right-0 sm:left-0 mt-2 w-44 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                   {SEARCH_TYPE_OPTIONS.map((type) => (
                     <button
                       key={type}
@@ -422,21 +470,21 @@ export default function SearchPageContent() {
       <section className="w-full bg-white pt-8 sm:pt-10 pb-6">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-8 lg:px-10">
           {/* Row 1: Filter, Level, Category Buttons (Left) & Most Relevant (Right) */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 mb-6">
             {/* Left Filter Group */}
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {/* 1. Filter Button */}
-              <div className="relative">
+              <div className="relative" ref={filterRef}>
                 <button
                   type="button"
-                  onClick={() => setIsFilterModalOpen(!isFilterModalOpen)}
-                  className={`px-5 py-2.5 rounded-full border text-sm font-medium inline-flex items-center gap-2 cursor-pointer transition-all duration-200 select-none ${
+                  onClick={toggleFilterModal}
+                  className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full border text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 select-none ${
                     isFilterModalOpen || hasActiveFilters
                       ? "border-neutral-900 bg-neutral-900 text-white shadow-xs"
                       : "border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800"
                   }`}
                 >
-                  <Filter className="w-4 h-4" strokeWidth={2} />
+                  <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
                   <span>Filter</span>
                   {hasActiveFilters && (
                     <span className="w-2 h-2 rounded-full bg-[#d4fb20]" />
@@ -445,7 +493,7 @@ export default function SearchPageContent() {
 
                 {/* Filter Popover Modal */}
                 {isFilterModalOpen && (
-                  <div className="absolute left-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-neutral-200 p-5 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute left-0 mt-2 w-72 sm:w-80 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-2xl border border-neutral-200 p-4 sm:p-5 z-50 animate-in fade-in zoom-in-95 duration-150">
                     <div className="flex items-center justify-between pb-3 border-b border-neutral-100 mb-4">
                       <span className="font-heading font-semibold text-neutral-900 text-base">
                         Filter Courses
@@ -453,7 +501,7 @@ export default function SearchPageContent() {
                       <button
                         type="button"
                         onClick={() => setIsFilterModalOpen(false)}
-                        className="text-neutral-400 hover:text-neutral-600 p-1"
+                        className="text-neutral-400 hover:text-neutral-600 p-1 cursor-pointer"
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -526,19 +574,19 @@ export default function SearchPageContent() {
               <div className="relative" ref={levelRef}>
                 <button
                   type="button"
-                  onClick={() => setIsLevelOpen(!isLevelOpen)}
-                  className={`px-5 py-2.5 rounded-full border text-sm font-medium inline-flex items-center gap-2 cursor-pointer transition-all duration-200 select-none ${
+                  onClick={toggleLevel}
+                  className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full border text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 select-none ${
                     selectedLevel !== "All Levels"
                       ? "border-[#0043ff] text-[#0043ff] bg-blue-50/50"
                       : "border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800"
                   }`}
                 >
-                  <BarChart2 className="w-4 h-4 text-neutral-800" strokeWidth={2} />
+                  <BarChart2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-800" strokeWidth={2} />
                   <span>{selectedLevel !== "All Levels" ? selectedLevel : "Level"}</span>
                 </button>
 
                 {isLevelOpen && (
-                  <div className="absolute left-0 mt-2 w-44 bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute left-0 mt-2 w-44 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                     {LEVEL_OPTIONS.map((lvl) => (
                       <button
                         key={lvl}
@@ -568,14 +616,14 @@ export default function SearchPageContent() {
               <div className="relative" ref={categoryRef}>
                 <button
                   type="button"
-                  onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                  className={`px-5 py-2.5 rounded-full border text-sm font-medium inline-flex items-center gap-2 cursor-pointer transition-all duration-200 select-none ${
+                  onClick={toggleCategory}
+                  className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full border text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 select-none ${
                     selectedCategory !== "All Categories"
                       ? "border-[#0043ff] text-[#0043ff] bg-blue-50/50"
                       : "border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800"
                   }`}
                 >
-                  <Shapes className="w-4 h-4 text-neutral-800" strokeWidth={2} />
+                  <Shapes className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-800" strokeWidth={2} />
                   <span>
                     {selectedCategory !== "All Categories"
                       ? selectedCategory
@@ -584,7 +632,7 @@ export default function SearchPageContent() {
                 </button>
 
                 {isCategoryOpen && (
-                  <div className="absolute left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 max-h-72 overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute left-0 mt-2 w-56 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 max-h-72 overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
                     <button
                       type="button"
                       onClick={() => {
@@ -630,15 +678,15 @@ export default function SearchPageContent() {
             </div>
 
             {/* Right: Most relevant Sort Dropdown */}
-            <div className="relative" ref={sortRef}>
+            <div className="relative shrink-0" ref={sortRef}>
               <button
                 type="button"
-                onClick={() => setIsSortOpen(!isSortOpen)}
-                className="px-5 py-2.5 rounded-full border border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800 text-sm font-medium inline-flex items-center gap-2 cursor-pointer transition-all duration-200 select-none hover:shadow-xs"
+                onClick={toggleSort}
+                className="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full border border-neutral-300 hover:border-neutral-400 bg-white text-neutral-800 text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 select-none hover:shadow-xs"
               >
                 {/* 3-line sort icon exactly matching Figma */}
                 <svg
-                  className="w-4 h-4 text-neutral-800"
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-800"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -654,7 +702,7 @@ export default function SearchPageContent() {
               </button>
 
               {isSortOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="absolute right-0 mt-2 w-48 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-xl border border-neutral-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                   {SORT_OPTIONS.map((opt) => (
                     <button
                       key={opt}
@@ -681,7 +729,7 @@ export default function SearchPageContent() {
           </div>
 
           {/* Row 2: Category Tag Pills (Exact sequence and layout from Figma) */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pb-2">
+          <div className="flex overflow-x-auto sm:flex-wrap items-center gap-2 sm:gap-2.5 pb-2 no-scrollbar">
             {CATEGORY_TAGS.map((tag) => {
               const isActive = activeTag === tag;
               return (
@@ -692,7 +740,7 @@ export default function SearchPageContent() {
                     setActiveTag(tag);
                     setCurrentPage(1);
                   }}
-                  className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer select-none ${
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer select-none whitespace-nowrap shrink-0 ${
                     isActive
                       ? "bg-[#d4fb20] text-neutral-900 font-semibold shadow-xs"
                       : "bg-[#f4f4f5] hover:bg-[#e4e4e7] text-neutral-700 border border-transparent"
@@ -739,7 +787,7 @@ export default function SearchPageContent() {
                 >
                   {/* Thumbnail Container */}
                   <Link
-                    href="/courses/build-digital-asset"
+                    href={course.id === 2 ? "/courses/build-digital-asset" : `/courses/${course.id}`}
                     className="block relative w-full aspect-[341/196] rounded-[20px] overflow-hidden bg-neutral-100"
                   >
                     <Image
@@ -769,7 +817,9 @@ export default function SearchPageContent() {
                     {/* Title & Rating */}
                     <div className="flex items-center justify-between gap-2">
                       <h3 className="font-heading font-bold text-[18px] text-[#111827] leading-snug group-hover:text-[#0043ff] transition-colors truncate">
-                        <Link href="/courses/build-digital-asset">{course.title}</Link>
+                        <Link href={course.id === 2 ? "/courses/build-digital-asset" : `/courses/${course.id}`}>
+                          {course.title}
+                        </Link>
                       </h3>
                       <div className="flex items-center gap-1 shrink-0">
                         <span className="text-[#71717a] text-[15px] font-medium">
@@ -783,7 +833,7 @@ export default function SearchPageContent() {
                     <p className="text-[#71717a] text-xs sm:text-sm mt-1">
                       by{" "}
                       <Link
-                        href="/creators"
+                        href="/creators/purepearl-studio"
                         className="text-[#0043ff] font-medium hover:underline cursor-pointer"
                       >
                         {course.author}
@@ -804,6 +854,7 @@ export default function SearchPageContent() {
                           src="/assets/avatars/avatar-stack-users.png"
                           alt="Enrolled students"
                           fill
+                          unoptimized
                           className="object-contain"
                         />
                       </div>
@@ -824,49 +875,73 @@ export default function SearchPageContent() {
             </div>
           )}
 
-          {/* 5. Pagination Bar (Pages 2-5 and Next arrow link to /error-404) */}
-          <div className="flex items-center justify-center gap-2 sm:gap-3 pt-12 sm:pt-16 pb-4">
-            {/* Previous Arrow Button (disabled on page 1) */}
-            <button
-              type="button"
-              disabled
-              aria-label="Previous Page"
-              className="w-11 h-11 rounded-full border border-neutral-300 flex items-center justify-center transition-all opacity-60 cursor-not-allowed text-neutral-400"
-            >
-              <ChevronLeft className="w-5 h-5 stroke-[2]" />
-            </button>
-
-            {/* Page 1 (Current active page) */}
-            <button
-              type="button"
-              onClick={() => {
-                window.scrollTo({ top: 400, behavior: "smooth" });
-              }}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-base text-neutral-300 cursor-pointer select-none"
-            >
-              1
-            </button>
-
-            {/* Pages 2, 3, 4, 5 link to /error-404 */}
-            {[2, 3, 4, 5].map((pageNum) => (
-              <Link
-                key={pageNum}
-                href="/error-404"
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-base text-neutral-900 hover:text-[#0043ff] transition-colors cursor-pointer select-none"
+          {/* 5. Pagination Bar (Functional pagination) */}
+          {Math.ceil(filteredCourses.length / itemsPerPage) > 1 && (
+            <div className="flex items-center justify-center gap-2 sm:gap-3 pt-12 sm:pt-16 pb-4">
+              {/* Previous Arrow Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (currentPage > 1) {
+                    setCurrentPage((p) => p - 1);
+                    window.scrollTo({ top: 400, behavior: "smooth" });
+                  }
+                }}
+                disabled={currentPage === 1}
+                aria-label="Previous Page"
+                className={`w-11 h-11 rounded-full border border-neutral-300 flex items-center justify-center transition-all ${
+                  currentPage === 1
+                    ? "opacity-40 cursor-not-allowed text-neutral-400"
+                    : "hover:border-neutral-400 hover:bg-neutral-50 text-neutral-800 cursor-pointer active:scale-95"
+                }`}
               >
-                {pageNum}
-              </Link>
-            ))}
+                <ChevronLeft className="w-5 h-5 stroke-[2]" />
+              </button>
 
-            {/* Next Arrow Button links to /error-404 */}
-            <Link
-              href="/error-404"
-              aria-label="Next Page"
-              className="w-11 h-11 rounded-full border border-neutral-300 flex items-center justify-center transition-all hover:border-neutral-400 hover:bg-neutral-50 text-neutral-800 cursor-pointer active:scale-95"
-            >
-              <ChevronRight className="w-5 h-5 stroke-[2]" />
-            </Link>
-          </div>
+              {/* Numbered Page Buttons */}
+              {Array.from(
+                { length: Math.ceil(filteredCourses.length / itemsPerPage) },
+                (_, i) => i + 1
+              ).map((pageNum) => (
+                <button
+                  key={pageNum}
+                  type="button"
+                  onClick={() => {
+                    setCurrentPage(pageNum);
+                    window.scrollTo({ top: 400, behavior: "smooth" });
+                  }}
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-base transition-colors cursor-pointer select-none ${
+                    currentPage === pageNum
+                      ? "bg-[#0043ff] text-white shadow-xs"
+                      : "text-neutral-900 hover:text-[#0043ff] hover:bg-neutral-100"
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              ))}
+
+              {/* Next Arrow Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  const maxPages = Math.ceil(filteredCourses.length / itemsPerPage);
+                  if (currentPage < maxPages) {
+                    setCurrentPage((p) => p + 1);
+                    window.scrollTo({ top: 400, behavior: "smooth" });
+                  }
+                }}
+                disabled={currentPage === Math.ceil(filteredCourses.length / itemsPerPage)}
+                aria-label="Next Page"
+                className={`w-11 h-11 rounded-full border border-neutral-300 flex items-center justify-center transition-all ${
+                  currentPage === Math.ceil(filteredCourses.length / itemsPerPage)
+                    ? "opacity-40 cursor-not-allowed text-neutral-400"
+                    : "hover:border-neutral-400 hover:bg-neutral-50 text-neutral-800 cursor-pointer active:scale-95"
+                }`}
+              >
+                <ChevronRight className="w-5 h-5 stroke-[2]" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

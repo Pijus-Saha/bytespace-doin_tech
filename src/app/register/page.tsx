@@ -90,7 +90,7 @@ export default function RegisterPage() {
 
           {/* Right Column: Register Card */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end">
-            <div className="w-full max-w-[576px] lg:w-[576px] lg:h-[782px] bg-white rounded-[36px] sm:rounded-[40px] lg:rounded-[44px] px-8 sm:px-12 lg:px-[60px] pt-10 sm:pt-12 lg:pt-[56px] pb-10 sm:pb-12 lg:pb-[56px] shadow-[0_35px_80px_rgba(0,18,80,0.38)] relative flex flex-col justify-between">
+            <div className="w-full max-w-[576px] lg:w-[576px] lg:h-[782px] bg-white rounded-[32px] sm:rounded-[40px] lg:rounded-[44px] px-6 sm:px-12 lg:px-[60px] pt-8 sm:pt-12 lg:pt-[56px] pb-8 sm:pb-12 lg:pb-[56px] shadow-[0_35px_80px_rgba(0,18,80,0.38)] relative flex flex-col justify-between">
               
               {isSubmitted ? (
                 /* Success State */
@@ -138,6 +138,7 @@ export default function RegisterPage() {
                       <input
                         id="fullName"
                         type="text"
+                        autoComplete="name"
                         required
                         value={formData.fullName}
                         onChange={(e) =>
@@ -159,6 +160,7 @@ export default function RegisterPage() {
                       <input
                         id="email"
                         type="email"
+                        autoComplete="email"
                         required
                         value={formData.email}
                         onChange={(e) =>
@@ -180,6 +182,7 @@ export default function RegisterPage() {
                       <input
                         id="password"
                         type="password"
+                        autoComplete="new-password"
                         required
                         minLength={8}
                         value={formData.password}

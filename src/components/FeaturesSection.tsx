@@ -196,7 +196,7 @@ export default function FeaturesSection() {
                 </p>
                 <div className="mt-1.5 sm:mt-2.5">
                   <span className="inline-block bg-[#d4fb20] text-black text-[8px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full">
-                    +12$
+                    +$12
                   </span>
                 </div>
               </div>

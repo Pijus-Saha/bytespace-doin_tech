@@ -44,20 +44,20 @@ export default function Footer() {
             </p>
 
             {/* Newsletter Form */}
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-[504px]">
+            <form onSubmit={handleSubmit} className="relative flex items-center w-full max-w-[504px] bg-white rounded-full border border-neutral-300 p-1.5 focus-within:border-[#0043ff] transition-all shadow-xs">
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 px-5 py-3 rounded-full border border-neutral-300 text-neutral-800 placeholder-neutral-400 text-sm focus:outline-none focus:border-[#0043ff] transition-colors"
+                className="flex-1 min-w-0 bg-transparent px-4 sm:px-5 py-2 text-neutral-800 placeholder-neutral-400 text-xs sm:text-sm focus:outline-none"
               />
               <button
                 type="submit"
-                className="bg-[#d4fb20] hover:bg-[#cbfc01] text-black font-semibold text-sm px-7 py-3 rounded-full transition-colors cursor-pointer shrink-0"
+                className="bg-[#d4fb20] hover:bg-[#cbfc01] text-black font-semibold text-xs sm:text-sm px-5 sm:px-7 py-2.5 sm:py-3 rounded-full transition-colors cursor-pointer shrink-0 active:scale-95"
               >
-                Search
+                Subscribe
               </button>
             </form>
 
@@ -176,7 +176,7 @@ export default function Footer() {
 
         {/* Bottom Bar Divider */}
         <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <p>@ 2023 ByteSpace. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} ByteSpace. All rights reserved.</p>
 
           <div className="flex items-center gap-6">
             <Link href="/error-404" className="hover:text-neutral-900 transition-colors">
